@@ -4,7 +4,6 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
 namespace TjuvPolis
 {
     internal class Person
@@ -12,23 +11,41 @@ namespace TjuvPolis
         public int[,] StartPos { get; set; }
         public int[,] CurrentPos { get; set; }
         public int RandomDirection { get; set; }
-
+        
         public Person(int[,] startPos, int[,] currentPos, int randomDirection)
         {
             StartPos = startPos;
             CurrentPos = currentPos;
             RandomDirection = randomDirection;
+            Console.WriteLine();
+        }
+
+        protected void CreateList(List<Item> possession)
+        {
+            List<Item> items = [
+                new Item( "Phone"),
+                new Item( "Watch"),
+                new Item( "Money"),
+                new Item("Wallet")
+            ];
+            possession.AddRange(items);
         }
     }
 
     class Citizen : Person
     {
-        public Citizen(int[,] startPos, int[,] currentPos, int randomDirection) : base(startPos, currentPos, randomDirection)
+        private List<Item> possessions;
+        public Citizen(
+            int[,] startPos,
+            int[,] currentPos,
+            int randomDirection)
+            : base(startPos, currentPos, randomDirection)
         {
             // char citizen = 'C';   Console.ForegroundColor = ConsoleColor.Green;
+            base.CreateList(this); // Slipper kalla på funktionen i main
         }
-
-        public static void CreateList()         //Skapar en lista med 4 items
+        
+        private static void CreateList()         //Skapar en lista med 4 items
         {
             List<Item> possessions = new List<Item>();
 
@@ -48,6 +65,7 @@ namespace TjuvPolis
             // Inga items kvar, hamna på fattighem...
         }
     }
+
 
     class Police : Person
     {
@@ -73,7 +91,6 @@ namespace TjuvPolis
             // bool isWanted = false;
             // char thief = 'T';    Console.ForegroundColor = ConsoleColor.Red;
         }
-
         public void StealItems ()
         {
             // Tar ett random item från en Citizen och blir Wanted...

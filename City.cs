@@ -8,14 +8,45 @@ namespace TjuvPolis
 {
     internal class City
     {
-        public int[,] CitySize { get; set; }
-        public List<Person> Population { get; set; }      //Lista med alla personer i staden
+        private CitySize Size { get; set; }
+        private List<Person> _population;
+        public List<Person> Population { 
+            get
+            {
+                return _population;
+            }
+            set
+            {
+                _population = value;
+            }
+        }      //Lista med alla personer i staden
 
-        public City(int[,] citySize, List<Person> population)
+
+        public City(CitySize citySize, List<Person> population)
         {
-            CitySize = citySize;
+            Size = citySize;
             Population = population;
         }
+        public City(int widht, int height, List<Person> population)
+        {
+            Size = new CitySize()
+            {
+                Width = widht,
+                Height = height
+            };
+            Population = population;
+        }
+        public City()
+        {
+            Size = new CitySize()
+            {
+                Width = 10,
+                Height = 10
+            };
+            Population = new List<Person>();
+        }
+
+
 
         public void DrawOutput()
         {
