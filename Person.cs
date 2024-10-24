@@ -12,35 +12,17 @@ namespace TjuvPolis
         protected Position Pos { get; set; }
         private static Random random = new Random();    
 
-        public int RandomDirection { get; set; }
-        
-        public Person(int[,] startPos, int[,] currentPos, int randomDirection)
+        public Person()
         {
             Pos = new Position();
             Pos.X = random.Next(0, 100);
             Pos.Y = random.Next(0, 25);
 
-
-
-           
-            RandomDirection = randomDirection;
             Console.WriteLine();
         }
 
-        protected void CreateList(List<Item> possession)
-        {
-            List<Item> items = [
-                new Item( "Phone"),
-                new Item( "Watch"),
-                new Item( "Money"),
-                new Item("Wallet")
-            ];
-            possession.AddRange(items);
-        }
         public void UpdatePos(int direction)
         {
-            this.Pos.X += x;
-            this.Pos.Y += y;
             switch (direction) 
             {
                 case 0:         //personen ska röra sig till vänster           
@@ -83,14 +65,9 @@ namespace TjuvPolis
 
                 default:         //personen står still
                     break;
-                 
             }
-           
-          
 
         }
-
-
     }
 
     class Citizen : Person
@@ -103,7 +80,7 @@ namespace TjuvPolis
             : base(startPos, currentPos, randomDirection)
         {
             // char citizen = 'C';   Console.ForegroundColor = ConsoleColor.Green;
-            base.CreateList(this); // Slipper kalla på funktionen i main
+            base.CreateList(this); // Slipper kalla på funktionen i man
         }
         
         private static void CreateList()         //Skapar en lista med 4 items
