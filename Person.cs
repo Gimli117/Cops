@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,18 +10,26 @@ namespace TjuvPolis
 {
     internal class Person
     {
+        public string Name { get; set; }
         protected Position Pos { get; set; }
         private static Random random = new Random();    
-
         public Person()
         {
             Pos = new Position();
             Pos.X = random.Next(0, 100);
             Pos.Y = random.Next(0, 25);
 
+
             Console.WriteLine();
         }
-
+        public int ShowPositionX()
+        {
+            return Pos.X;
+        }
+        public int ShowPositionY()
+        {
+            return Pos.Y;
+        }
         public void UpdatePos(int direction)
         {
             switch (direction) 
@@ -66,33 +75,27 @@ namespace TjuvPolis
                 default:         //personen står still
                     break;
             }
-
         }
     }
 
     class Citizen : Person
     {
-        private List<Item> possessions;
-        public Citizen(
-            int[,] startPos,
-            int[,] currentPos,
-            int randomDirection)
-            : base(startPos, currentPos, randomDirection)
+        public ConsoleColor CitizenColor = ConsoleColor.Green;
+        private List<Item> Possessions { get; set; }
+        public Citizen() : base()
         {
-            // char citizen = 'C';   Console.ForegroundColor = ConsoleColor.Green;
-            base.CreateList(this); // Slipper kalla på funktionen i man
+                           // char citizen = 'C';   Console.ForegroundColor = ConsoleColor.Green;
+            CreateList(); // Slipper kalla på funktionen i man
         }
         
-        private static void CreateList()         //Skapar en lista med 4 items
+        private void CreateList()         //Skapar en lista med 4 items
         {
-            List<Item> possessions = new List<Item>();
+            Possessions.Add(new Item("Phone"));
+            Possessions.Add(new Item("Watch"));
+            Possessions.Add(new Item("Money"));
+            Possessions.Add(new Item("Wallet"));
 
-            possessions.Add(new Item("Phone"));
-            possessions.Add(new Item("Watch"));
-            possessions.Add(new Item("Money"));
-            possessions.Add(new Item("Wallet"));
-
-            foreach(Item item in possessions)       //Skriv ut listan (just nu för synes skull...)
+            foreach(Item item in Possessions)       //Skriv ut listan (just nu för synes skull...)
             {
                 Console.WriteLine(item.ItemName);
             }
@@ -101,6 +104,10 @@ namespace TjuvPolis
         public void GiveUp()
         {
             // Inga items kvar, hamna på fattighem...
+        }
+        public List<Item> GiveItem()
+        {
+            return this.Possessions;
         }
     }
 
@@ -122,16 +129,35 @@ namespace TjuvPolis
 
     class Thief : Person
     {
-        public Thief(int[,] startPos, int[,] currentPos, int randomDirection) : base(startPos, currentPos, randomDirection)
+        public bool Wanted;
+        private List<Item> Booty { get; set; }
+        public Thief() : base()
         {
-            List<Item> stolenGoods = new List<Item>();
-
+            Booty = new List<Item>();
             // bool isWanted = false;
             // char thief = 'T';    Console.ForegroundColor = ConsoleColor.Red;
         }
-        public void StealItems ()
+        public void Scan(List<Person> population) 
         {
-            // Tar ett random item från en Citizen och blir Wanted...
+            foreach(var person in population)
+            {
+                if(this.Pos.X == person.ShowPositionX() && 
+                   this.Pos.Y == person.ShowPositionY())
+                {
+                    if(person is Citizen)
+                    {
+                        var persAsCitizen = person as Citizen;
+                        this.Steal(persAsCitizen);
+                    }
+                }
+            }
+        }
+        private void Steal(Citizen citizen)
+        {
+            this.Wanted = true;
+            Item Stolen = citizen.GiveItem().First();
+            this.Booty.Add(Stolen);
+            citizen.GiveItem().Remove(Stolen);
         }
     }
 }

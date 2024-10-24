@@ -36,6 +36,7 @@ namespace TjuvPolis
             };
             Population = population;
         }
+
         public City()
         {
             Size = new CitySize()
@@ -46,13 +47,18 @@ namespace TjuvPolis
             Population = new List<Person>();
         }
 
-
-
         public void DrawOutput()
         {
             // Skriv ut allt i konsolen
+            Person person = new();
+            {
+                var a = (person is Thief) ? person as Thief : null;
+            }
         }
-
+        private void CreatePopulation()
+        {
+            
+        }
         public void ChangeDirection()
         {
             // Kollision vid en vägg
