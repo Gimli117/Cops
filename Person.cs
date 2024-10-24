@@ -2,20 +2,27 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 namespace TjuvPolis
 {
     internal class Person
     {
-        public int[,] StartPos { get; set; }
-        public int[,] CurrentPos { get; set; }
+        protected Position Pos { get; set; }
+        private static Random random = new Random();    
+
         public int RandomDirection { get; set; }
         
         public Person(int[,] startPos, int[,] currentPos, int randomDirection)
         {
-            StartPos = startPos;
-            CurrentPos = currentPos;
+            Pos = new Position();
+            Pos.X = random.Next(0, 100);
+            Pos.Y = random.Next(0, 25);
+
+
+
+           
             RandomDirection = randomDirection;
             Console.WriteLine();
         }
@@ -30,6 +37,60 @@ namespace TjuvPolis
             ];
             possession.AddRange(items);
         }
+        public void UpdatePos(int direction)
+        {
+            this.Pos.X += x;
+            this.Pos.Y += y;
+            switch (direction) 
+            {
+                case 0:         //personen ska röra sig till vänster           
+                    Pos.X--;
+                    break;
+
+                case 1:         //personen ska röra sig till höger
+                    Pos.X++;
+                    break;
+
+                case 2:         //personen ska röra sig nereåt 
+                    Pos.Y++;
+                    break;
+
+                case 3:         //personen ska röra sig uppåt
+                    Pos.Y--;
+                    break;
+
+
+                case 4:         //personen ska röra sig snitt ner till vänster
+                    Pos.X--;
+                    Pos.Y++;
+                    break;
+
+                case 5:         //personen ska röra sig snitt upp till vänster 
+                    Pos.X--;
+                    Pos.Y--;
+                    break;
+
+
+                case 6:         //persone ska röra sig snitt upp till höger
+                    Pos.X++;
+                    Pos.Y--;
+                    break;
+
+                case 7:         //personen ska röra sig snitt ner höger
+                    Pos.X++;
+                    Pos.Y++;
+                    break;
+
+                default:         //personen står still
+                    break;
+                 
+            }
+           
+          
+
+        }
+
+
     }
 
     class Citizen : Person
