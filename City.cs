@@ -68,29 +68,38 @@ namespace TjuvPolis
 
         public void DrawOutput()
         {
-            for (int x = 0; x <= Size.Width; x++)
+            while (true)
             {
-                for (int y = 0; y <= Size.Height; y++) 
+                Console.ForegroundColor = ConsoleColor.White;
+                for (int x = 0; x <= Size.Width; x++)
                 {
-                
-                    Console.CursorTop = y;
-                    Console.CursorLeft = x;
-                    if (x == 0 || x == Size.Width) 
+                    for (int y = 0; y <= Size.Height; y++) 
                     {
-                        Console.Write("|");
+                        Console.CursorVisible = false;
+                        Console.CursorTop = y;
+                        Console.CursorLeft = x;
+                        if (x == 0 || x == Size.Width) 
+                        {
+                            Console.Write("|");
                     
-                    }
-                    else if(y==0  || y == Size.Height)
-                    {
-                        Console.Write("-");
-                    }
+                        }
+                        else if(y==0  || y == Size.Height)
+                        {
+                            Console.Write("-");
+                        }
                    
+                    }
                 }
+
+                foreach (Person person in _population)
+                {
+                    person.DrawPerson();
+                };
+
+                Thread.Sleep(1000);
+                //Console.ReadLine();
+                Console.Clear();
             }
-            foreach (Person person in _population) {
-                person.DrawPerson();
-           };
-            Console.ReadLine();
         }
 
         public void CreatePopulation()
@@ -110,11 +119,6 @@ namespace TjuvPolis
                 _population.Add(new Citizen($"C{c + 1}"));
             }
 
-        }
-
-        public void ChangeDirection()
-        {
-            // Kollision vid en vägg
         }
     }
 

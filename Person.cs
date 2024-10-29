@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Metrics;
 using System.Drawing;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -19,26 +20,43 @@ namespace TjuvPolis
 
         {
             Pos = new Position();
-            Pos.X = random.Next(1, 100);
-            Pos.Y = random.Next(1, 25);
+
+            Pos.X = random.Next(1, 99);
+            Pos.Y = random.Next(1, 24);
+
             Name = name;
 
-            WritePosition();
+            //WritePosition();
         }
 
+        int direction = random.Next(0,9);
+        int directionCounter = 0;
         public void DrawPerson()
         {
             Console.CursorLeft = Pos.X;
             Console.CursorTop = Pos.Y;
+
             Console.Write(ToString());
 
-            UpdatePos(random.Next(0, 9));
-
+            if (directionCounter == 4)
+            {
+                direction = random.Next(0, 9);
+                directionCounter = 0;
+            }
+            UpdatePos(direction);
+            directionCounter++;
         }
-        public virtual string ToString() 
+
+        public void CheckCollision()   // Kollision vid en vägg
+        {
+            // byt direction...
+        }
+
+#pragma warning disable CS0114
+        public virtual string ToString()
+#pragma warning restore CS0114
         {
             return "X";
-
         }
 
 
@@ -67,7 +85,7 @@ namespace TjuvPolis
                     Pos.X++;
                     break;
 
-                case 2:         //personen ska röra sig nereåt 
+                case 2:         //personen ska röra sig neråt 
                     Pos.Y++;
                     break;
 
@@ -75,24 +93,22 @@ namespace TjuvPolis
                     Pos.Y--;
                     break;
 
-
-                case 4:         //personen ska röra sig snitt ner till vänster
+                case 4:         //personen ska röra sig snett ner till vänster
                     Pos.X--;
                     Pos.Y++;
                     break;
 
-                case 5:         //personen ska röra sig snitt upp till vänster 
+                case 5:         //personen ska röra sig snett upp till vänster
                     Pos.X--;
                     Pos.Y--;
                     break;
 
-
-                case 6:         //persone ska röra sig snitt upp till höger
+                case 6:         //personen ska röra sig snett upp till höger
                     Pos.X++;
                     Pos.Y--;
                     break;
 
-                case 7:         //personen ska röra sig snitt ner höger
+                case 7:         //personen ska röra sig snett ner höger
                     Pos.X++;
                     Pos.Y++;
                     break;
@@ -141,14 +157,13 @@ namespace TjuvPolis
         }
         public override string ToString()
         {
-            return "C";
+            Console.ForegroundColor = CitizenColor;
 
-            
+            return "C";
         }
     }
 
-
-    class Police : Person
+    class Police : Person                                                           //Police
     {
         public static readonly ConsoleColor PoliceColor = ConsoleColor.Blue;
         public Police(string name) : base(name)
@@ -157,9 +172,9 @@ namespace TjuvPolis
         }
         public override string ToString()
         {
+            Console.ForegroundColor = PoliceColor;
+
             return "P";
-
-
         }
 
         protected override void WritePosition()
@@ -175,7 +190,7 @@ namespace TjuvPolis
         }
     }
 
-    class Thief : Person
+    class Thief : Person                                                            //Thief
     {
         public static readonly ConsoleColor ThiefColor = ConsoleColor.Red;
 
@@ -187,9 +202,9 @@ namespace TjuvPolis
         }
         public override string ToString()
         {
-            return "t";
+            Console.ForegroundColor = ThiefColor;
 
-
+            return "T";
         }
 
         protected override void WritePosition()
@@ -213,7 +228,7 @@ namespace TjuvPolis
                 }
             }
         }
-        private void Steal(Citizen citizen)
+        private void Steal(Citizen citizen)                                     //Citizen
         {
             this.Wanted = true;
             Item Stolen = citizen.GiveItem().First();
