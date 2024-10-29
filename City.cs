@@ -25,15 +25,9 @@ namespace TjuvPolis
         public City(CitySize citySize, List<Person> population)
         {
             Size = citySize;
-            Population = population;
-
-            CreatePopulation();
-
-            foreach (Police police in _population)
-            {
-                Console.WriteLine(police.Name);
-            }
+            _population = population;
         }
+
         public City(int widht, int height, List<Person> population)
         {
             Size = new CitySize()
@@ -41,7 +35,7 @@ namespace TjuvPolis
                 Width = widht,
                 Height = height
             };
-            Population = population;
+            _population = population;
         }
 
         public City()
@@ -51,25 +45,49 @@ namespace TjuvPolis
                 Width = 10,
                 Height = 10
             };
-            Population = new List<Person>();
+            _population = new List<Person>();
+
+            CreatePopulation();
+
+            foreach (Person person in _population)
+            {
+                string result = ((person is Police) ? (Police)person : (person is Thief) ? (Thief)person : (person is Citizen) ? (Citizen)person : person).Name;
+
+                Console.ForegroundColor = (person.GetType().FullName == "TjuvPolis.Police") ? (Police.PoliceColor) : 
+                    (person.GetType() == typeof(Thief)) ? (Thief.ThiefColor) : 
+                    (person.GetType() == typeof(Citizen)) ? (Citizen.CitizenColor) : 
+                    ConsoleColor.White;
+
+                Console.WriteLine(result);
+            }
+            Console.ForegroundColor = ConsoleColor.White;
+
+            Console.WriteLine("Ska vara vit...");
         }
 
         public void DrawOutput()
         {
             //Skriv ut allt i konsolen
-            /*Person person = new Person();
-            {
-                var a = (person is Thief) ? person as Thief : null;
-            }*/
         }
+
         public void CreatePopulation()
         {
-            for (int p = 0; p < 20; p++)
+            for (int p = 0; p < 20; p++)        //Skapar 20 poliser och ger dem namn
             {
-                _population.Add(new Police($"P{p+1}"));
+                _population.Add(new Police($"P{p + 1}"));
             }
-            
+
+            for (int t = 0; t < 20; t++)        //Skapar 20 tjuvar
+            {
+                _population.Add(new Thief($"T{t + 1}"));
+            }
+
+            for (int c = 0; c < 10; c++)        //Skapar 10 medborgare
+            {
+                _population.Add(new Citizen($"C{c + 1}"));
+            }
         }
+
         public void ChangeDirection()
         {
             // Kollision vid en vägg

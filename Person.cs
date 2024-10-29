@@ -12,13 +12,22 @@ namespace TjuvPolis
     {
         public string Name { get; set; }
         protected Position Pos { get; set; }
-        private static Random random = new Random();    
+        private static Random random = new Random();
+        private static int personNum;
         public Person(string name)
         {
             Pos = new Position();
             Pos.X = random.Next(0, 100);
             Pos.Y = random.Next(0, 25);
             Name = name;
+
+            WritePosition();
+        }
+
+        protected virtual void WritePosition()
+        {
+            Console.WriteLine($"Person{personNum} med X:{Pos.X}, Y:{Pos.Y}");
+            personNum++;
         }
         public int ShowPositionX()
         {
@@ -78,14 +87,22 @@ namespace TjuvPolis
 
     class Citizen : Person
     {
-        public ConsoleColor CitizenColor = ConsoleColor.Green;
+        public static readonly ConsoleColor CitizenColor = ConsoleColor.Green;
         private List<Item> Possessions { get; set; }
         public Citizen(string name) : base(name)
         {
-                           // char citizen = 'C';   Console.ForegroundColor = ConsoleColor.Green;
-            CreateList(); // Slipper kalla på funktionen i man
+            this.Possessions = new List<Item>();
+
+            CreateList(); // Slipper kalla på funktionen i main
         }
-        
+
+        protected override void WritePosition()
+        {
+            Console.ForegroundColor = CitizenColor;
+            Console.WriteLine($"{Name} med X:{Pos.X}, Y:{Pos.Y}");
+            Console.ForegroundColor = ConsoleColor.White;
+        }
+
         private void CreateList()         //Skapar en lista med 4 items
         {
             Possessions.Add(new Item("Phone"));
@@ -93,16 +110,13 @@ namespace TjuvPolis
             Possessions.Add(new Item("Money"));
             Possessions.Add(new Item("Wallet"));
 
-            foreach(Item item in Possessions)       //Skriv ut listan (just nu för synes skull...)
-            {
-                Console.WriteLine(item.ItemName);
-            }
         }
 
         public void GiveUp()
         {
             // Inga items kvar, hamna på fattighem...
         }
+
         public List<Item> GiveItem()
         {
             return this.Possessions;
@@ -112,13 +126,17 @@ namespace TjuvPolis
 
     class Police : Person
     {
+        public static readonly ConsoleColor PoliceColor = ConsoleColor.Blue;
         public Police(string name) : base(name)
         {
-            List<Item> seizedGoods = new List<Item>();
-            
-            
+            List<Item> seizedGoods = new List<Item>();           
+        }
 
-            // char police = 'P';   Console.ForegroundColor = ConsoleColor.Blue;
+        protected override void WritePosition()
+        {
+            Console.ForegroundColor = PoliceColor;
+            Console.WriteLine($"{Name} med X:{Pos.X}, Y:{Pos.Y}");
+            Console.ForegroundColor = ConsoleColor.White;
         }
 
         public void SeizeItems()
@@ -129,13 +147,20 @@ namespace TjuvPolis
 
     class Thief : Person
     {
+        public static readonly ConsoleColor ThiefColor = ConsoleColor.Red;
+
         public bool Wanted;
         private List<Item> Booty { get; set; }
         public Thief(string name) : base(name)
         {
             Booty = new List<Item>();
-            // bool isWanted = false;
-            // char thief = 'T';    Console.ForegroundColor = ConsoleColor.Red;
+        }
+
+        protected override void WritePosition()
+        {
+            Console.ForegroundColor = ThiefColor;
+            Console.WriteLine($"{Name} med X:{Pos.X}, Y:{Pos.Y}");
+            Console.ForegroundColor = ConsoleColor.White;
         }
         public void Scan(List<Person> population) 
         {
@@ -147,7 +172,7 @@ namespace TjuvPolis
                     if(person is Citizen)
                     {
                         var persAsCitizen = person as Citizen;
-                        this.Steal(persAsCitizen);
+                        this.Steal(persAsCitizen!);
                     }
                 }
             }
