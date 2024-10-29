@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -42,32 +43,54 @@ namespace TjuvPolis
         {
             Size = new CitySize()
             {
-                Width = 10,
-                Height = 10
+                Width = 100,
+                Height = 25
             };
             _population = new List<Person>();
 
             CreatePopulation();
 
-            foreach (Person person in _population)
-            {
-                string result = ((person is Police) ? (Police)person : (person is Thief) ? (Thief)person : (person is Citizen) ? (Citizen)person : person).Name;
+            //foreach (Person person in _population)
+            //{
+            //    string result = ((person is Police) ? (Police)person : (person is Thief) ? (Thief)person : (person is Citizen) ? (Citizen)person : person).Name;
 
-                Console.ForegroundColor = (person.GetType().FullName == "TjuvPolis.Police") ? (Police.PoliceColor) : 
-                    (person.GetType() == typeof(Thief)) ? (Thief.ThiefColor) : 
-                    (person.GetType() == typeof(Citizen)) ? (Citizen.CitizenColor) : 
-                    ConsoleColor.White;
+            //    Console.ForegroundColor = (person.GetType().FullName == "TjuvPolis.Police") ? (Police.PoliceColor) : 
+            //        (person.GetType() == typeof(Thief)) ? (Thief.ThiefColor) : 
+            //        (person.GetType() == typeof(Citizen)) ? (Citizen.CitizenColor) : 
+            //        ConsoleColor.White;
 
-                Console.WriteLine(result);
-            }
-            Console.ForegroundColor = ConsoleColor.White;
+            //    Console.WriteLine(result);
+            //}
+            //Console.ForegroundColor = ConsoleColor.White;
 
-            Console.WriteLine("Ska vara vit...");
+            //Console.WriteLine("Ska vara vit...");
         }
 
         public void DrawOutput()
         {
-            //Skriv ut allt i konsolen
+            for (int x = 0; x <= Size.Width; x++)
+            {
+                for (int y = 0; y <= Size.Height; y++) 
+                {
+                
+                    Console.CursorTop = y;
+                    Console.CursorLeft = x;
+                    if (x == 0 || x == Size.Width) 
+                    {
+                        Console.Write("|");
+                    
+                    }
+                    else if(y==0  || y == Size.Height)
+                    {
+                        Console.Write("-");
+                    }
+                   
+                }
+            }
+            foreach (Person person in _population) {
+                person.DrawPerson();
+           };
+            Console.ReadLine();
         }
 
         public void CreatePopulation()
@@ -76,7 +99,7 @@ namespace TjuvPolis
             {
                 _population.Add(new Police($"P{p + 1}"));
             }
-
+            
             for (int t = 0; t < 20; t++)        //Skapar 20 tjuvar
             {
                 _population.Add(new Thief($"T{t + 1}"));
@@ -86,6 +109,7 @@ namespace TjuvPolis
             {
                 _population.Add(new Citizen($"C{c + 1}"));
             }
+
         }
 
         public void ChangeDirection()

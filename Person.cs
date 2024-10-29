@@ -11,18 +11,36 @@ namespace TjuvPolis
     internal class Person
     {
         public string Name { get; set; }
+
         protected Position Pos { get; set; }
         private static Random random = new Random();
         private static int personNum;
         public Person(string name)
+
         {
             Pos = new Position();
-            Pos.X = random.Next(0, 100);
-            Pos.Y = random.Next(0, 25);
+            Pos.X = random.Next(1, 100);
+            Pos.Y = random.Next(1, 25);
             Name = name;
 
             WritePosition();
         }
+
+        public void DrawPerson()
+        {
+            Console.CursorLeft = Pos.X;
+            Console.CursorTop = Pos.Y;
+            Console.Write(ToString());
+
+            UpdatePos(random.Next(0, 9));
+
+        }
+        public virtual string ToString() 
+        {
+            return "X";
+
+        }
+
 
         protected virtual void WritePosition()
         {
@@ -121,6 +139,12 @@ namespace TjuvPolis
         {
             return this.Possessions;
         }
+        public override string ToString()
+        {
+            return "C";
+
+            
+        }
     }
 
 
@@ -130,6 +154,12 @@ namespace TjuvPolis
         public Police(string name) : base(name)
         {
             List<Item> seizedGoods = new List<Item>();           
+        }
+        public override string ToString()
+        {
+            return "P";
+
+
         }
 
         protected override void WritePosition()
@@ -154,6 +184,12 @@ namespace TjuvPolis
         public Thief(string name) : base(name)
         {
             Booty = new List<Item>();
+        }
+        public override string ToString()
+        {
+            return "t";
+
+
         }
 
         protected override void WritePosition()
