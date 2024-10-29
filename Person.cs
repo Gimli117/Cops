@@ -13,14 +13,12 @@ namespace TjuvPolis
         public string Name { get; set; }
         protected Position Pos { get; set; }
         private static Random random = new Random();    
-        public Person()
+        public Person(string name)
         {
             Pos = new Position();
             Pos.X = random.Next(0, 100);
             Pos.Y = random.Next(0, 25);
-
-
-            Console.WriteLine();
+            Name = name;
         }
         public int ShowPositionX()
         {
@@ -82,7 +80,7 @@ namespace TjuvPolis
     {
         public ConsoleColor CitizenColor = ConsoleColor.Green;
         private List<Item> Possessions { get; set; }
-        public Citizen() : base()
+        public Citizen(string name) : base(name)
         {
                            // char citizen = 'C';   Console.ForegroundColor = ConsoleColor.Green;
             CreateList(); // Slipper kalla på funktionen i man
@@ -114,9 +112,11 @@ namespace TjuvPolis
 
     class Police : Person
     {
-        public Police(int[,] startPos, int[,] currentPos, int randomDirection) : base(startPos, currentPos, randomDirection)
+        public Police(string name) : base(name)
         {
             List<Item> seizedGoods = new List<Item>();
+            
+            
 
             // char police = 'P';   Console.ForegroundColor = ConsoleColor.Blue;
         }
@@ -131,7 +131,7 @@ namespace TjuvPolis
     {
         public bool Wanted;
         private List<Item> Booty { get; set; }
-        public Thief() : base()
+        public Thief(string name) : base(name)
         {
             Booty = new List<Item>();
             // bool isWanted = false;

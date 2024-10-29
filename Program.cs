@@ -16,13 +16,15 @@
             City stad2 = new City(10, 10, []);
             City stad3 = new City();
 
-            Item<int> item = new Item<int>();
-            
-            item.S
+            // Item<int> item = new Item<int>();
+
+            // item.S
+
         }
-        class Item<T>
+
+        /*class Item<T>
         {
             public T S { get; set; }
-        }
+        }*/
     }
 }

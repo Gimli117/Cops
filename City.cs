@@ -26,6 +26,13 @@ namespace TjuvPolis
         {
             Size = citySize;
             Population = population;
+
+            CreatePopulation();
+
+            foreach (Police police in _population)
+            {
+                Console.WriteLine(police.Name);
+            }
         }
         public City(int widht, int height, List<Person> population)
         {
@@ -49,14 +56,18 @@ namespace TjuvPolis
 
         public void DrawOutput()
         {
-            // Skriv ut allt i konsolen
-            Person person = new();
+            //Skriv ut allt i konsolen
+            /*Person person = new Person();
             {
                 var a = (person is Thief) ? person as Thief : null;
-            }
+            }*/
         }
-        private void CreatePopulation()
+        public void CreatePopulation()
         {
+            for (int p = 0; p < 20; p++)
+            {
+                _population.Add(new Police($"P{p+1}"));
+            }
             
         }
         public void ChangeDirection()
@@ -67,7 +78,7 @@ namespace TjuvPolis
 
     class Prison : City
     {
-        public Prison(int[,]citySize, List<Person> population) : base(citySize, population)
+        public Prison(int[,]citySize, List<Person> population) : base()
         {
             // List<Person> prisoners = new List<Person>;
         }

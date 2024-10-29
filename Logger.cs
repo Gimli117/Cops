@@ -8,5 +8,6 @@ namespace TjuvPolis
 {
     internal class Logger
     {
+
     }
 }
