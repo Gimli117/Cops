@@ -259,7 +259,7 @@ namespace TjuvPolis
         {
             Console.ForegroundColor = CitizenColor;
 
-            return "C";
+            return "👨";
         }
     }
 
@@ -274,7 +274,7 @@ namespace TjuvPolis
         {
             Console.ForegroundColor = PoliceColor;
 
-            return "P";
+            return "👮";
         }
 
         protected override void WritePosition()
@@ -304,7 +304,7 @@ namespace TjuvPolis
         {
             Console.ForegroundColor = ThiefColor;
 
-            return "T";
+            return "🦝";
         }
 
         protected override void WritePosition()
