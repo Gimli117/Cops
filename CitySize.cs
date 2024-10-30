@@ -1,8 +1,8 @@
 ﻿namespace TjuvPolis
 {
-    public class CitySize
+    public static class CitySize
     {
-        public int Width { get; set; }
-        public int Height { get; set; }
+        public static int Width { get; } = 100;
+        public static int Height { get; } = 25;
     }
 }

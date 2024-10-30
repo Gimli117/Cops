@@ -9,7 +9,6 @@ namespace TjuvPolis
 {
     internal class City
     {
-        private CitySize Size { get; set; }
         private List<Person> _population;
         public List<Person> Population { 
             get
@@ -22,30 +21,13 @@ namespace TjuvPolis
             }
         }      //Lista med alla personer i staden
 
-
-        public City(CitySize citySize, List<Person> population)
+        public City(List<Person> population)
         {
-            Size = citySize;
-            _population = population;
-        }
-
-        public City(int widht, int height, List<Person> population)
-        {
-            Size = new CitySize()
-            {
-                Width = widht,
-                Height = height
-            };
             _population = population;
         }
 
         public City()
         {
-            Size = new CitySize()
-            {
-                Width = 100,
-                Height = 25
-            };
             _population = new List<Person>();
 
             CreatePopulation();
@@ -71,32 +53,40 @@ namespace TjuvPolis
             while (true)
             {
                 Console.ForegroundColor = ConsoleColor.White;
-                for (int x = 0; x <= Size.Width; x++)
+                Console.BackgroundColor = ConsoleColor.Black;
+
+                Console.CursorVisible = false;
+                Console.SetWindowSize(Console.LargestWindowWidth, Console.LargestWindowHeight);
+
+                char wall = '█';
+
+                for (int x = 0; x <= CitySize.Width; x++)
                 {
-                    for (int y = 0; y <= Size.Height; y++) 
+                    for (int y = 0; y <= CitySize.Height; y++) 
                     {
-                        Console.CursorVisible = false;
+
                         Console.CursorTop = y;
                         Console.CursorLeft = x;
-                        if (x == 0 || x == Size.Width) 
+                        if (x == 0 || x == CitySize.Width)
                         {
-                            Console.Write("|");
+                            Console.Write(wall);
                     
                         }
-                        else if(y==0  || y == Size.Height)
+                        else if(y == 0  || y == CitySize.Height)
                         {
-                            Console.Write("-");
-                        }
-                   
+                            Console.Write(wall);
+                        }                   
                     }
                 }
 
                 foreach (Person person in _population)
                 {
                     person.DrawPerson();
-                };
+                }
 
-                Thread.Sleep(1000);
+                Logger.Print();
+
+                Thread.Sleep(500);
                 //Console.ReadLine();
                 Console.Clear();
             }

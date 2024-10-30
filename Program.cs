@@ -5,8 +5,8 @@
         static void Main()
         {
             City stad = new City();
-            stad.DrawOutput();
 
+            stad.DrawOutput();
         }
     }
 }

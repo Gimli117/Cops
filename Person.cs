@@ -29,28 +29,129 @@ namespace TjuvPolis
             //WritePosition();
         }
 
-        int direction = random.Next(0,9);
+        int direction = random.Next(0, 9);
         int directionCounter = 0;
         public void DrawPerson()
         {
+            CheckCollision();
+
             Console.CursorLeft = Pos.X;
             Console.CursorTop = Pos.Y;
 
+            UpdatePos(direction);
+
             Console.Write(ToString());
 
-            if (directionCounter == 4)
+            if (directionCounter == 5)          //Byter håll var femte turn
             {
                 direction = random.Next(0, 9);
                 directionCounter = 0;
             }
-            UpdatePos(direction);
             directionCounter++;
+
         }
 
-        public void CheckCollision()   // Kollision vid en vägg
+        public void CheckCollision()             // Kollision vid en vägg
         {
-            // byt direction...
+            switch (direction)
+            {
+                case 0:                                     // Left
+                    if (Pos.X - 1 == 0)                     // Left Wall Collision
+                    {
+                        direction = 2;  //Right
+                    }
+                    break;
+
+                case 1:                                     // Up
+                    if (Pos.Y - 1 == 0)                     // Ceiling Collision
+                    {
+                        direction = 3;  //Down
+                    }
+                    break;
+
+                case 2:                                     // Right
+                    if (Pos.X + 1 == CitySize.Width)        // Right Wall Collision
+                    {
+                        direction = 0;  //Left
+                    }
+                    break;
+
+                case 3:                                     // Down
+                    if (Pos.Y + 1 == CitySize.Height)       // Bottom Collision
+                    {
+                        direction = 1;  //Up
+                    }
+                    break;
+
+                case 4:                                                    // Left+Down
+                    if (Pos.X - 1 == 0)                                    // Left Wall Collision
+                    {
+                        direction = 7;  //Right+Down
+                    }
+                    if (Pos.Y + 1 == CitySize.Height)                      // Bottom Collision
+                    {
+                        direction = 5;  //Left+Up
+                    }
+                    if (Pos.X - 1 == 0 && Pos.Y + 1 == CitySize.Height)    // CORNER collision
+                    {
+                        direction = 6;  //Right+Up
+                        Console.BackgroundColor = ConsoleColor.DarkYellow;
+                    }
+                    break;
+
+                case 5:                                                    // Left+Up
+                    if (Pos.X - 1 == 0)                                    // Left Wall collision
+                    {
+                        direction = 6;  //Right+Up
+                    }
+                    if (Pos.Y - 1 == 0)                                    // Ceiling collision
+                    {
+                        direction = 4;  //Left+Down
+                    }
+                    if (Pos.X - 1 == 0 && Pos.Y - 1 == 0)                  // CORNER collision
+                    {
+                        direction = 7;  //Right+Down
+                        Console.BackgroundColor = ConsoleColor.DarkYellow;
+                    }
+                    break;
+
+                case 6:                                                    // Right+Up
+                    if (Pos.X + 1 == CitySize.Width)                       // Right Wall collision
+                    {
+                        direction = 5;  //Left+Up
+                    }
+                    if (Pos.Y - 1 == 0)                                    // Ceiling collision
+                    {
+                        direction = 7;  //Right+Down
+                    }
+                    if (Pos.X + 1 == CitySize.Width && Pos.Y - 1 == 0)     // CORNER collision
+                    {
+                        direction = 4;  //Left+Down
+                        Console.BackgroundColor = ConsoleColor.DarkYellow;
+                    }
+                    break;
+
+                case 7:                                                    // Right+Down
+                    if (Pos.X + 1 == CitySize.Width)                       // Right Wall collision
+                    {
+                        direction = 4;  //Left+Down
+                    }
+                    if (Pos.Y + 1 == CitySize.Height)                      // Bottom collision
+                    {
+                        direction = 6;  //Right+Up
+                    }
+                    if (Pos.X + 1 == CitySize.Width && Pos.Y + 1 == CitySize.Height)     // CORNER collision
+                    {
+                        direction = 5;  //Left+Up
+                        Console.BackgroundColor = ConsoleColor.DarkYellow;
+                    }
+                    break;
+
+                default:                                      // Freeze...
+                    break;
+            }
         }
+    
 
 #pragma warning disable CS0114
         public virtual string ToString()
@@ -58,7 +159,6 @@ namespace TjuvPolis
         {
             return "X";
         }
-
 
         protected virtual void WritePosition()
         {
@@ -77,20 +177,20 @@ namespace TjuvPolis
         {
             switch (direction) 
             {
-                case 0:         //personen ska röra sig till vänster           
+                case 0:         //personen ska röra sig till vänster
                     Pos.X--;
                     break;
 
-                case 1:         //personen ska röra sig till höger
+                case 1:         //personen ska röra sig uppåt
+                    Pos.Y--;
+                    break;
+
+                case 2:         //personen ska röra sig höger
                     Pos.X++;
                     break;
 
-                case 2:         //personen ska röra sig neråt 
+                case 3:         //personen ska röra sig neråt
                     Pos.Y++;
-                    break;
-
-                case 3:         //personen ska röra sig uppåt
-                    Pos.Y--;
                     break;
 
                 case 4:         //personen ska röra sig snett ner till vänster
