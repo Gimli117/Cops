@@ -78,33 +78,43 @@ namespace TjuvPolis
                         }                   
                     }
                 }
-
+               
                 foreach (Person person in _population)
                 {
-                    person.DrawPerson();
+                    person.DrawPerson();    
                 }
-
-                Logger.Print();
-
+                CheckEncounters();
                 Thread.Sleep(500);
                 //Console.ReadLine();
                 Console.Clear();
             }
         }
+        public void CheckEncounters()
+        {
+            foreach (Person person in _population) 
+            {
+                if (person is Thief ) ((Thief)person).Scan(_population);
+                if (person is Police) ((Police)person).Scan(_population);
+
+
+                 
+
+            }
+        }
 
         public void CreatePopulation()
         {
-            for (int p = 0; p < 20; p++)        //Skapar 20 poliser och ger dem namn
+            for (int p = 0; p < 30; p++)        //Skapar 30 poliser och ger dem namn
             {
                 _population.Add(new Police($"P{p + 1}"));
             }
             
-            for (int t = 0; t < 20; t++)        //Skapar 20 tjuvar
+            for (int t = 0; t < 10; t++)        //Skapar 10 tjuvar
             {
                 _population.Add(new Thief($"T{t + 1}"));
             }
 
-            for (int c = 0; c < 10; c++)        //Skapar 10 medborgare
+            for (int c = 0; c < 40; c++)        //Skapar 40 medborgare
             {
                 _population.Add(new Citizen($"C{c + 1}"));
             }

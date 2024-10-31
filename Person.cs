@@ -266,9 +266,11 @@ namespace TjuvPolis
     class Police : Person                                                           //Police
     {
         public static readonly ConsoleColor PoliceColor = ConsoleColor.Blue;
+        public List<Item> seizedGoods { get; set; }
+
         public Police(string name) : base(name)
         {
-            List<Item> seizedGoods = new List<Item>();           
+            seizedGoods = new List<Item>();
         }
         public override string ToString()
         {
@@ -283,13 +285,34 @@ namespace TjuvPolis
             Console.WriteLine($"{Name} med X:{Pos.X}, Y:{Pos.Y}");
             Console.ForegroundColor = ConsoleColor.White;
         }
+        public void Scan(List<Person> population)
+        {
+            foreach (var person in population)
+            {
+                if (this.Pos.X == person.ShowPositionX() &&
+                   this.Pos.Y == person.ShowPositionY())
+                {
+                    Thief persAsThief;
+                    if (person is Thief && (persAsThief = (person as Thief)!).Wanted)
 
-        public void SeizeItems()
+                    {
+                        
+                        this.SeizeItems(persAsThief!);
+
+                    }
+                }
+            }
+        }
+        private void SeizeItems(Thief thief)
         {
             // Tar tjuvens items och sätter han i fängelse...
+            this.seizedGoods.AddRange(thief.LoseItems());
+            thief.LoseItems().Clear();
+            
+
+
         }
     }
-
     class Thief : Person                                                            //Thief
     {
         public static readonly ConsoleColor ThiefColor = ConsoleColor.Red;
@@ -304,9 +327,15 @@ namespace TjuvPolis
         {
             Console.ForegroundColor = ThiefColor;
 
-            return "🦝";
+            if (Wanted)
+                return "🦊";
+            else
+                return "🦝";
         }
-
+        public List<Item> LoseItems() 
+        { 
+            return Booty;
+        }
         protected override void WritePosition()
         {
             Console.ForegroundColor = ThiefColor;
@@ -328,12 +357,22 @@ namespace TjuvPolis
                 }
             }
         }
-        private void Steal(Citizen citizen)                                     //Citizen
+        private void Steal(Citizen citizen)         
+           //Citizen
         {
             this.Wanted = true;
             Item Stolen = citizen.GiveItem().First();
             this.Booty.Add(Stolen);
             citizen.GiveItem().Remove(Stolen);
-        }
+            Console.CursorLeft= ShowPositionX();
+            Console.CursorTop = ShowPositionY();
+            Logger.Report(this,citizen);
+
+
+
+        }   
+
     }
+
+
 }
