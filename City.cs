@@ -31,21 +31,6 @@ namespace TjuvPolis
             _population = new List<Person>();
 
             CreatePopulation();
-
-            //foreach (Person person in _population)
-            //{
-            //    string result = ((person is Police) ? (Police)person : (person is Thief) ? (Thief)person : (person is Citizen) ? (Citizen)person : person).Name;
-
-            //    Console.ForegroundColor = (person.GetType().FullName == "TjuvPolis.Police") ? (Police.PoliceColor) : 
-            //        (person.GetType() == typeof(Thief)) ? (Thief.ThiefColor) : 
-            //        (person.GetType() == typeof(Citizen)) ? (Citizen.CitizenColor) : 
-            //        ConsoleColor.White;
-
-            //    Console.WriteLine(result);
-            //}
-            //Console.ForegroundColor = ConsoleColor.White;
-
-            //Console.WriteLine("Ska vara vit...");
         }
 
         public void DrawOutput()
@@ -91,14 +76,10 @@ namespace TjuvPolis
         }
         public void CheckEncounters()
         {
-            foreach (Person person in _population) 
+            foreach (Person person in _population)
             {
                 if (person is Thief ) ((Thief)person).Scan(_population);
                 if (person is Police) ((Police)person).Scan(_population);
-
-
-                 
-
             }
         }
 
@@ -118,7 +99,6 @@ namespace TjuvPolis
             {
                 _population.Add(new Citizen($"C{c + 1}"));
             }
-
         }
     }
 

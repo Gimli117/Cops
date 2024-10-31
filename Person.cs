@@ -7,6 +7,7 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
+
 namespace TjuvPolis
 {
     internal class Person
@@ -25,8 +26,6 @@ namespace TjuvPolis
             Pos.Y = random.Next(1, 24);
 
             Name = name;
-
-            //WritePosition();
         }
 
         int direction = random.Next(0, 9);
@@ -42,13 +41,12 @@ namespace TjuvPolis
 
             Console.Write(ToString());
 
-            if (directionCounter == 5)          //Byter håll var femte turn
+            if (directionCounter == 5)           // Byter håll var femte turn
             {
                 direction = random.Next(0, 9);
                 directionCounter = 0;
             }
             directionCounter++;
-
         }
 
         public void CheckCollision()             // Kollision vid en vägg
@@ -219,7 +217,7 @@ namespace TjuvPolis
         }
     }
 
-    class Citizen : Person
+    class Citizen : Person                                                          // Citizen
     {
         public static readonly ConsoleColor CitizenColor = ConsoleColor.Green;
         private List<Item> Possessions { get; set; }
@@ -227,7 +225,7 @@ namespace TjuvPolis
         {
             this.Possessions = new List<Item>();
 
-            CreateList(); // Slipper kalla på funktionen i main
+            CreateList();                 // Slipper kalla på funktionen i main
         }
 
         protected override void WritePosition()
@@ -237,13 +235,12 @@ namespace TjuvPolis
             Console.ForegroundColor = ConsoleColor.White;
         }
 
-        private void CreateList()         //Skapar en lista med 4 items
+        private void CreateList()         // Skapar en lista med 4 items
         {
             Possessions.Add(new Item("Phone"));
             Possessions.Add(new Item("Watch"));
             Possessions.Add(new Item("Money"));
             Possessions.Add(new Item("Wallet"));
-
         }
 
         public void GiveUp()
@@ -263,7 +260,7 @@ namespace TjuvPolis
         }
     }
 
-    class Police : Person                                                           //Police
+    class Police : Person                                                           // Police
     {
         public static readonly ConsoleColor PoliceColor = ConsoleColor.Blue;
         public List<Item> seizedGoods { get; set; }
@@ -290,30 +287,24 @@ namespace TjuvPolis
             foreach (var person in population)
             {
                 if (this.Pos.X == person.ShowPositionX() &&
-                   this.Pos.Y == person.ShowPositionY())
+                    this.Pos.Y == person.ShowPositionY())
                 {
                     Thief persAsThief;
+
                     if (person is Thief && (persAsThief = (person as Thief)!).Wanted)
-
-                    {
-                        
+                    {                        
                         this.SeizeItems(persAsThief!);
-
                     }
                 }
             }
         }
-        private void SeizeItems(Thief thief)
+        private void SeizeItems(Thief thief)                                        // Tar tjuvens items och sätter han i fängelse...
         {
-            // Tar tjuvens items och sätter han i fängelse...
             this.seizedGoods.AddRange(thief.LoseItems());
             thief.LoseItems().Clear();
-            
-
-
         }
     }
-    class Thief : Person                                                            //Thief
+    class Thief : Person                                                            // Thief
     {
         public static readonly ConsoleColor ThiefColor = ConsoleColor.Red;
 
@@ -328,9 +319,13 @@ namespace TjuvPolis
             Console.ForegroundColor = ThiefColor;
 
             if (Wanted)
+            {
                 return "🦊";
+            }
             else
+            {
                 return "🦝";
+            }
         }
         public List<Item> LoseItems() 
         { 
@@ -357,22 +352,16 @@ namespace TjuvPolis
                 }
             }
         }
-        private void Steal(Citizen citizen)         
-           //Citizen
+        private void Steal(Citizen citizen)
         {
             this.Wanted = true;
             Item Stolen = citizen.GiveItem().First();
             this.Booty.Add(Stolen);
             citizen.GiveItem().Remove(Stolen);
+
             Console.CursorLeft= ShowPositionX();
             Console.CursorTop = ShowPositionY();
             Logger.Report(this,citizen);
-
-
-
         }   
-
     }
-
-
 }
