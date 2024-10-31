@@ -34,10 +34,10 @@ namespace TjuvPolis
         {
             CheckCollision();
 
+            UpdatePos(direction);
+
             Console.CursorLeft = Pos.X;
             Console.CursorTop = Pos.Y;
-
-            UpdatePos(direction);
 
             Console.Write(ToString());
 
@@ -273,7 +273,7 @@ namespace TjuvPolis
         {
             Console.ForegroundColor = PoliceColor;
 
-            return "👮";
+            return "👮‍";
         }
 
         protected override void WritePosition()
@@ -302,6 +302,10 @@ namespace TjuvPolis
         {
             this.seizedGoods.AddRange(thief.LoseItems());
             thief.LoseItems().Clear();
+
+            Console.CursorLeft = ShowPositionX();
+            Console.CursorTop = ShowPositionY();
+            Logger.Print(this, thief);
         }
     }
     class Thief : Person                                                            // Thief
@@ -359,9 +363,9 @@ namespace TjuvPolis
             this.Booty.Add(Stolen);
             citizen.GiveItem().Remove(Stolen);
 
-            Console.CursorLeft= ShowPositionX();
+            Console.CursorLeft = ShowPositionX();
             Console.CursorTop = ShowPositionY();
-            Logger.Report(this,citizen);
+            Logger.Report(this,citizen, Stolen);
         }   
     }
 }

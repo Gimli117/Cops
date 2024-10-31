@@ -63,12 +63,14 @@ namespace TjuvPolis
                         }                   
                     }
                 }
-               
+
                 foreach (Person person in _population)
                 {
-                    person.DrawPerson();    
+                    person.DrawPerson();
                 }
+
                 CheckEncounters();
+
                 Thread.Sleep(500);
                 //Console.ReadLine();
                 Console.Clear();
