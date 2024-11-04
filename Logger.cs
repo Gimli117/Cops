@@ -17,7 +17,7 @@ namespace TjuvPolis
             Console.CursorLeft = 0;
             Console.CursorTop = 27;
             Console.WriteLine($"Report {loggerCount} - {police.Name} took {thief.Name} to jail and also all of his items.");
-            Console.ReadLine();
+            //Console.ReadLine();
 
             loggerCount++;
         }
@@ -29,7 +29,7 @@ namespace TjuvPolis
             Console.CursorLeft = 0;
             Console.CursorTop = 27;
             Console.WriteLine($"Report {loggerCount} - {thief.Name } took {stolenItem.ItemName} from {citizen.Name}.");
-            Console.ReadLine();
+            //Console.ReadLine();
 
             loggerCount++;
         }
