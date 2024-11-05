@@ -69,7 +69,7 @@ namespace TjuvPolis
             citySize = new AreaSize(0, 0, 100, 25);
             prisonSize = new AreaSize(105, 0, 130, 10);
             poorPlaceSize = new AreaSize(105, 15, 130, 25);
-
+            //Void Private Function with side effect of populating _population list with people. 
             CreatePopulation();
         }
         public void DrawOutput()
@@ -104,14 +104,15 @@ namespace TjuvPolis
 
                 CheckEncounters();
 
-                Thread.Sleep(500);
-                //Console.ReadLine();
+                //Thread.Sleep(500);
+                Console.ReadLine();
                 Console.Clear();
             }
         }
 
         public void DrawWalls(int MinWidthX, int MinHeightY, int MaxWidthX, int MaxHeightY, char? otherWall)
         {
+            Console.ForegroundColor = ConsoleColor.White;
             for (int x = MinWidthX; x <= MaxWidthX; x++)
             {
                 for (int y = MinHeightY; y <= MaxHeightY; y++)
@@ -128,6 +129,26 @@ namespace TjuvPolis
                     }
                 }
             }
+
+            Console.CursorLeft = 48;
+            Console.CursorTop = 26;
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.Write("City");
+
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine("\n\n Reports");
+            Console.CursorLeft = 0;
+            Console.WriteLine("-----------------------------------------------------------------------------------------------------");
+
+            Console.CursorLeft = 115;
+            Console.CursorTop = 11;
+            Console.ForegroundColor = ConsoleColor.DarkRed;
+            Console.WriteLine("Prison");
+
+            Console.CursorLeft = 113;
+            Console.CursorTop = 26;
+            Console.ForegroundColor= ConsoleColor.DarkGreen;
+            Console.WriteLine("Poor House");
         }
 
         public void DrawCity()
@@ -157,21 +178,22 @@ namespace TjuvPolis
                 else if (person is Police) ((Police)person).Scan(_population);
                 else if (person is Citizen) ((Citizen)person).GiveUp();
             }
+            Logger.PrintQueue();
         }
 
         public void CreatePopulation()
         {
-            for (int p = 0; p < 10; p++)        //Skapar 10 poliser och ger dem namn
+            for (int p = 0; p < 15; p++)        //Skapar 10 poliser och ger dem namn
             {
                 _population.Add(new Police($"P{p + 1}"));
             }
             
-            for (int t = 0; t < 30; t++)        //Skapar 30 tjuvar
+            for (int t = 0; t < 15; t++)        //Skapar 30 tjuvar
             {
                 _population.Add(new Thief($"T{t + 1}"));
             }
 
-            for (int c = 0; c < 40; c++)        //Skapar 40 medborgare
+            for (int c = 0; c < 20; c++)        //Skapar 40 medborgare
             {
                 _population.Add(new Citizen($"C{c + 1}"));
             }
