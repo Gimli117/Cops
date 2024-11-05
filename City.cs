@@ -12,19 +12,20 @@ namespace TjuvPolis
         /// <summary>
         /// citySize är en fält som är medlem i city som kan inte kommas åt i andra classer för att den är privat 
         /// även det är typ av AreaSize 
+        /// ADDING FOR TESTING PURPOSES
         /// </summary>
-      
         private readonly AreaSize citySize;
+
         /// <summary>
         /// perisonsize är en fält som är medlem i city som kan inte kommas åt i andra classer för att den är privat
         /// även det är typ av AreaSize
         /// </summary>
         private readonly AreaSize prisonSize;
+
         /// <summary>
         /// poorPlaceSize är en fält som är medlem i ciy som kan inte kommas åt i andra classer för att den är privat 
         /// även det är typ av Areasize .
         /// </summary>
-       
         private readonly AreaSize poorPlaceSize;
         /// <summary>
         /// Wall är en char som är en fält som är medlem i city som kan inte kommas åt i an dra classer för att den är privat
@@ -36,8 +37,8 @@ namespace TjuvPolis
         /// _population är en medlem i city classen som är special fält som heter backingfält för propeprty Population
         ///  och där kan skickas ut genom get metoden och värdet ändras i den genom sett metoden
         /// </summary>
-
         private List<Person> _population;
+
         /// <summary>
         /// Population är en medlem i city classen som är proppety som kan använda en fält som heter backningsfält
         /// även propety kan innehålla get metoden och värdet ändras genom sett metoden . Det är ett Public proetty
