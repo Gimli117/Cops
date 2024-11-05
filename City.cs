@@ -68,7 +68,7 @@ namespace TjuvPolis
             citySize = new AreaSize(0, 0, 100, 25);
             prisonSize = new AreaSize(105, 0, 130, 10);
             poorPlaceSize = new AreaSize(105, 15, 130, 25);
-
+            //Void Private Function with side effect of populating _population list with people. 
             CreatePopulation();
         }
         public void DrawOutput()
