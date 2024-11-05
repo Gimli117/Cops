@@ -6,7 +6,7 @@ namespace TjuvPolis
     {
         static void Main()
         {
-            Console.OutputEncoding = Encoding.Unicode;
+            Console.OutputEncoding = Encoding.Latin1;
             City stad = new City();
 
             stad.DrawOutput();
