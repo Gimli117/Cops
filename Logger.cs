@@ -3,35 +3,69 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Collections;
 
 namespace TjuvPolis
 {
-    internal class Logger       //Use Queue here instead... 10 outputs shown and oldest output is removed when a new output is added
+    internal class Logger
     {
         public static int loggerCount = 1;
-        public static void Print(Police police,Thief thief)
+
+        public static Queue<string> loggerQueue = new Queue<string>();
+        public static Queue thiefQueue = new Queue();
+
+        public static void Robbery (Thief thief, Citizen citizen, Item stolenItem)
+        {
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.Write("🔪");
+
+            loggerQueue.Enqueue($"Report {loggerCount} - {thief.Name} took {stolenItem.ItemName} from {citizen.Name}.");
+            loggerCount++;
+        }
+
+        public static void Arrest (Police police, Thief thief)
         {
             Console.ForegroundColor = ConsoleColor.White;
             Console.Write("🔫");
 
-            Console.CursorLeft = 0;
-            Console.CursorTop = 27;
-            Console.WriteLine($"Report {loggerCount} - {police.Name} took {thief.Name} to jail and also all of his items.");
-            //Console.ReadLine();
-
+            loggerQueue.Enqueue($"Report {loggerCount} - {police.Name} took {thief.Name} to jail and also all of his items.");
             loggerCount++;
         }
-        public static void Report(Thief thief, Citizen citizen, Item stolenItem)
+
+        public static void Poor (Citizen citizen)
         {
-            Console.ForegroundColor= ConsoleColor.White;
-            Console.Write("🔪");
-
-            Console.CursorLeft = 0;
-            Console.CursorTop = 27;
-            Console.WriteLine($"Report {loggerCount} - {thief.Name } took {stolenItem.ItemName} from {citizen.Name}.");
-            //Console.ReadLine();
-
+            loggerQueue.Enqueue($"Report {loggerCount} - Citizen {citizen.Name} was robbed too many times and is now in the Poor House.");
             loggerCount++;
+        }
+
+        public static void PrintQueue ()
+        {
+            Console.CursorTop = 31;
+
+            while (loggerQueue.Count > 10)
+            {
+                loggerQueue.Dequeue();
+            }
+
+            foreach (string log in loggerQueue.Reverse())
+            {
+                if (log.Contains("jail"))
+                {
+                    Console.ForegroundColor = ConsoleColor.Blue;
+                }
+                else if (log.Contains("Poor"))
+                {
+                    Console.ForegroundColor= ConsoleColor.Green;
+                }
+                else
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                }
+                Console.CursorLeft = 1;
+
+                Console.WriteLine(log);
+                Console.WriteLine();
+            }
         }
     }
 }

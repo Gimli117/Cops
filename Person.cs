@@ -260,6 +260,8 @@ namespace TjuvPolis
             {
                 this.isPoor = true;
 
+                Logger.Poor(this);
+
                 this.Pos.X = poorPos.Next(106, 129);
                 this.Pos.Y = poorPos.Next(16, 24);
             }
@@ -322,7 +324,7 @@ namespace TjuvPolis
 
                 Console.CursorLeft = ShowPositionX();
                 Console.CursorTop = ShowPositionY();
-                Logger.Print(this, thief);
+                Logger.Arrest(this, thief);
             }
         }
     }
@@ -351,8 +353,9 @@ namespace TjuvPolis
                 return "🦝";
             }
         }
+
         public List<Item> LoseItems() 
-        { 
+        {
             return Booty;
         }
 
@@ -400,7 +403,7 @@ namespace TjuvPolis
 
                 Console.CursorLeft = ShowPositionX();
                 Console.CursorTop = ShowPositionY();
-                Logger.Report(this, citizen, Stolen);
+                Logger.Robbery(this, citizen, Stolen);
             }
         }   
     }
