@@ -75,7 +75,8 @@ namespace TjuvPolis
             //Void Private Function with side effect of populating _population list with people. 
             CreatePopulation();
         }
-        public void DrawOutput()
+       //
+        public int DrawOutput()
         {
             while (true)
             {
