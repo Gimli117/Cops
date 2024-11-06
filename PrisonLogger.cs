@@ -37,7 +37,6 @@ namespace TjuvPolis
                     Console.WriteLine();
                 }
             }
-        }
 
         public static void PoorHouseInfo()
         {

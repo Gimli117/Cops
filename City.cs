@@ -9,6 +9,8 @@ namespace TjuvPolis
 {
     internal class City
     {
+        bool WallsDrawn;
+
         /// <summary>
         /// citySize är en fält som är medlem i city som kan inte kommas åt i andra classer för att den är privat 
         /// även det är typ av AreaSize 
@@ -84,12 +86,15 @@ namespace TjuvPolis
 
                 Console.CursorVisible = false;
                 Console.SetWindowSize(Console.LargestWindowWidth, Console.LargestWindowHeight);
+                if (!WallsDrawn)
+                {
+                    DrawCity();
+                    DrawPrison();
+                    DrawPoorHouse();
+                }
 
-                DrawCity();
-                DrawPrison();
-                DrawPoorHouse();
                 DrawOther();
-
+                ClearInnerCity();
                 foreach (Person person in _population)
                 {
                     if (person is Citizen && ((Citizen)person).isPoor)
@@ -110,7 +115,15 @@ namespace TjuvPolis
 
                 Thread.Sleep(100);
                 //Console.ReadLine();
-                Console.Clear();
+            }
+        }
+        public void ClearInnerCity()
+        {
+            foreach(var person in _population)
+            {
+                Console.CursorLeft = person.ShowPositionX();
+                Console.CursorTop = person.ShowPositionY();
+                Console.Write(" "); 
             }
         }
 
@@ -166,20 +179,19 @@ namespace TjuvPolis
 
         public void DrawCity()
         {
+            if(!WallsDrawn)
             DrawWalls(citySize.MinWidthX, citySize.MinHeightY, citySize.MaxWidthX, citySize.MaxHeightY, null);
         }
 
         public void DrawPrison()
         {
             char otherWall = 'X';
-
             DrawWalls(prisonSize.MinWidthX,  prisonSize.MinHeightY, prisonSize.MaxWidthX, prisonSize.MaxHeightY, otherWall);
         }
 
         public void DrawPoorHouse()
         {
             char otherWall = '0';
-
             DrawWalls(poorPlaceSize.MinWidthX, poorPlaceSize.MinHeightY, poorPlaceSize.MaxWidthX, poorPlaceSize.MaxHeightY, otherWall);
         }
 
