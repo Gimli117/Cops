@@ -106,9 +106,9 @@ namespace TjuvPolis
                     }
                 }
 
-                CheckEncounters();
+                InteractionsLogic();
 
-                Thread.Sleep(500);
+                Thread.Sleep(100);
                 //Console.ReadLine();
                 Console.Clear();
             }
@@ -137,27 +137,28 @@ namespace TjuvPolis
         public void DrawOther()
         {
             Console.CursorLeft = 48;
-            Console.CursorTop = 26;
+            Console.CursorTop = 0;
             Console.ForegroundColor = ConsoleColor.Cyan;
-            Console.Write("City");
+            Console.Write("<City>");
 
+            Console.CursorTop = 26;
             Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine("\n\n Reports");
             Console.CursorLeft = 0;
             Console.WriteLine("-----------------------------------------------------------------------------------------------------");
 
-            Console.CursorLeft = 115;
-            Console.CursorTop = 11;
-            Console.ForegroundColor = ConsoleColor.DarkRed;
-            Console.WriteLine("Prison");
-
-            Console.CursorLeft = 113;
-            Console.CursorTop = 26;
-            Console.ForegroundColor = ConsoleColor.DarkGreen;
-            Console.WriteLine("Poor House");
-
-            Console.CursorLeft = 135;
+            Console.CursorLeft = 114;
             Console.CursorTop = 0;
+            Console.ForegroundColor = ConsoleColor.DarkRed;
+            Console.WriteLine("<Prison>");
+
+            Console.CursorLeft = 112;
+            Console.CursorTop = 15;
+            Console.ForegroundColor = ConsoleColor.DarkGreen;
+            Console.WriteLine("<Poor House>");
+
+            Console.CursorTop = 28;
+            Console.CursorLeft = 92;
             Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine($"Round {roundCount}");
             roundCount++;
@@ -182,11 +183,15 @@ namespace TjuvPolis
             DrawWalls(poorPlaceSize.MinWidthX, poorPlaceSize.MinHeightY, poorPlaceSize.MaxWidthX, poorPlaceSize.MaxHeightY, otherWall);
         }
 
-        public void CheckEncounters()
+        public void InteractionsLogic()
         {
             foreach (Person person in _population)
             {
-                if (person is Thief) ((Thief)person).Scan(_population);
+                if (person is Thief)
+                {
+                    ((Thief)person).Scan(_population);
+                    ((Thief)person).CheckJail();
+                }
                 else if (person is Police) ((Police)person).Scan(_population);
                 else if (person is Citizen) ((Citizen)person).GiveUp();
             }
