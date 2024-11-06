@@ -44,6 +44,9 @@ namespace TjuvPolis
         /// även propety kan innehålla get metoden och värdet ändras genom sett metoden . Det är ett Public proetty
         // som har accecee modefire, denna fältet kan användas i andra classer.
         /// </summary>
+
+        private int roundCount = 1;
+
         public List<Person> Population { 
             get
             {
@@ -85,6 +88,7 @@ namespace TjuvPolis
                 DrawCity();
                 DrawPrison();
                 DrawPoorHouse();
+                DrawOther();
 
                 foreach (Person person in _population)
                 {
@@ -104,15 +108,14 @@ namespace TjuvPolis
 
                 CheckEncounters();
 
-                //Thread.Sleep(500);
-                Console.ReadLine();
+                Thread.Sleep(500);
+                //Console.ReadLine();
                 Console.Clear();
             }
         }
 
         public void DrawWalls(int MinWidthX, int MinHeightY, int MaxWidthX, int MaxHeightY, char? otherWall)
         {
-            Console.ForegroundColor = ConsoleColor.White;
             for (int x = MinWidthX; x <= MaxWidthX; x++)
             {
                 for (int y = MinHeightY; y <= MaxHeightY; y++)
@@ -129,7 +132,10 @@ namespace TjuvPolis
                     }
                 }
             }
+        }
 
+        public void DrawOther()
+        {
             Console.CursorLeft = 48;
             Console.CursorTop = 26;
             Console.ForegroundColor = ConsoleColor.Cyan;
@@ -147,8 +153,14 @@ namespace TjuvPolis
 
             Console.CursorLeft = 113;
             Console.CursorTop = 26;
-            Console.ForegroundColor= ConsoleColor.DarkGreen;
+            Console.ForegroundColor = ConsoleColor.DarkGreen;
             Console.WriteLine("Poor House");
+
+            Console.CursorLeft = 135;
+            Console.CursorTop = 0;
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine($"Round {roundCount}");
+            roundCount++;
         }
 
         public void DrawCity()

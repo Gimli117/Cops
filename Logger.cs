@@ -11,8 +11,9 @@ namespace TjuvPolis
     {
         public static int loggerCount = 1;
 
+        public static bool newEncounter;
+
         public static Queue<string> loggerQueue = new Queue<string>();
-        public static Queue thiefQueue = new Queue();
 
         public static void Robbery (Thief thief, Citizen citizen, Item stolenItem)
         {
@@ -21,6 +22,7 @@ namespace TjuvPolis
 
             loggerQueue.Enqueue($"Report {loggerCount} - {thief.Name} took {stolenItem.ItemName} from {citizen.Name}.");
             loggerCount++;
+            newEncounter = true;
         }
 
         public static void Arrest (Police police, Thief thief)
@@ -30,12 +32,14 @@ namespace TjuvPolis
 
             loggerQueue.Enqueue($"Report {loggerCount} - {police.Name} took {thief.Name} to jail and also all of his items.");
             loggerCount++;
+            newEncounter = true;
         }
 
         public static void Poor (Citizen citizen)
         {
             loggerQueue.Enqueue($"Report {loggerCount} - Citizen {citizen.Name} was robbed too many times and is now in the Poor House.");
             loggerCount++;
+            newEncounter = true;
         }
 
         public static void PrintQueue ()
@@ -65,6 +69,11 @@ namespace TjuvPolis
 
                 Console.WriteLine(log);
                 Console.WriteLine();
+            }
+            if (newEncounter)
+            {
+                Console.ReadLine();
+                newEncounter = false;
             }
         }
     }

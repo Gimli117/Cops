@@ -260,10 +260,10 @@ namespace TjuvPolis
             {
                 this.isPoor = true;
 
-                Logger.Poor(this);
-
                 this.Pos.X = poorPos.Next(106, 129);
                 this.Pos.Y = poorPos.Next(16, 24);
+
+                Logger.Poor(this);
             }
         }
 
@@ -324,6 +324,7 @@ namespace TjuvPolis
 
                 Console.CursorLeft = ShowPositionX();
                 Console.CursorTop = ShowPositionY();
+
                 Logger.Arrest(this, thief);
             }
         }
@@ -403,6 +404,7 @@ namespace TjuvPolis
 
                 Console.CursorLeft = ShowPositionX();
                 Console.CursorTop = ShowPositionY();
+
                 Logger.Robbery(this, citizen, Stolen);
             }
         }   
