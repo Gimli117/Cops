@@ -35,6 +35,7 @@ namespace TjuvPolis
 
                     Console.WriteLine($"Prisoner {info.Name} will be released in rounds: {info.PrisonTime}");
                     Console.WriteLine();
+                }
             }
         }
 
