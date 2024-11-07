@@ -73,6 +73,9 @@ namespace TjuvPolis
             //det är också fält som en typ av area size, siffrorna är storleken på fattig hem( där citzen hämnar i om de fick inte kavr item 
             //på grund av tjuverna har stolet).
             poorPlaceSize = new AreaSize(105, 15, 130, 25);
+         
+            //Void Private Function with side effect of populating _population list with people.
+            
 <<<<<<< Updated upstream
 
             CreatePopulation();
@@ -88,7 +91,6 @@ namespace TjuvPolis
         /// <summary>
         /// 
         /// </summary>
->>>>>>> Stashed changes
         public void DrawOutput()
         {
             // vi laggt till enn loop som kan ändra färger så som hela backgrunden och texten till vit .
@@ -106,14 +108,10 @@ namespace TjuvPolis
                 DrawCity();
                 DrawPrison();
                 DrawPoorHouse();
-<<<<<<< Updated upstream
-
-=======
                // beskriver ensamt exakt hur ska texten står typ under fängelsen och fattighem och  vad som händer i city
                /// innnehåller färgen och hur ska rittas ska man  exempelvis att anvnäda 0 till ritta fattig hem och stolrekrna.
                 DrawOther();
                 ///vi  började sakpa loop till fälten population varje person i city.
->>>>>>> Stashed changes
                 foreach (Person person in _population)
                 {
                     // beskriver citzen om som if  den blir fattig eller har inte items kvar på grund av tjuven har stolet 
@@ -194,10 +192,18 @@ namespace TjuvPolis
         public void CreatePopulation()
         
         {
-<<<<<<< Updated upstream
-            for (int p = 0; p < 10; p++)        //Skapar 10 poliser och ger dem namn
+        //for loppen ska  skapa och ge tjuverna och policer och medborgare namn och visa de från 0 som sifror med texter.
+
+           
+            for (int p = 0; p < 20; p++)        //Skapar 10 poliser och ger dem namn
             {
                 _population.Add(new Police($"P{p + 1}"));
+                if (p < 15)
+
+                    //  för att kunna skapa lista med medlemmar ligger vi  bokastaven T som referar till tjuv och t är 0 i först a loppen.
+                    _population.Add(new Thief($"T{p + 1}"));
+                else if (p < 15) 
+               _population.Add(new Citizen($"C{p + 1}"));
             }
             
             for (int t = 0; t < 30; t++)        //Skapar 30 tjuvar
