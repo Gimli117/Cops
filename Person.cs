@@ -10,30 +10,38 @@ using System.Threading.Tasks;
 
 namespace TjuvPolis
 {
-    public class CitySize
-    {
-        public static int Width = 100;
-        public static int Height = 25;
-    }
     internal class Person
     {
+        /// <summary>
+        /// är prooety som hämtar och sätter puplic namn på personer.
+        /// </summary>
         public string Name { get; set; }
-
+        //det är propety som också hämtar och sätter vad personierna exakt i city
         protected Position Pos { get; set; }
+        //vi laggt till random och det konstant i alla obejkt och kan inte ändras.
         private static Random random = new Random();
+        //konstant som är fält av data typ int som har namnet person
         private static int personNum;
-
+        /// <summary>
+        ///  Person det är konstruktor som skapar ny obejkt från data typen är person.
+        /// </summary>
+        /// <param name="name"> skapar personers nanmn occh det namn , kommer efter data typ</param>
         public Person(string name)
 
         {
+            // vi har kallat psstion för skappa property .
             Pos = new Position();
-
+            // användet git och sit som 1-99 i x som random.
             Pos.X = random.Next(1, 99);
+            // git ,set som har random posstion som Y är 1-24 i så fall.
             Pos.Y = random.Next(1, 24);
-
+            //  Name är  property  där vi  värdet genom  name som parameter.
             Name = name;
         }
-
+        /// <summary>
+        /// läggt fält som random direction som 0-9
+        /// 
+        /// </summary>
         int direction = random.Next(0, 9);
         int directionCounter = 0;
         public void DrawPerson(AreaSize city)
@@ -46,7 +54,7 @@ namespace TjuvPolis
             Console.CursorTop = Pos.Y;
 
             Console.Write(ToString());
-
+            
             if (directionCounter == 5)           // Byter håll var femte turn
             {
                 direction = random.Next(0, 9);

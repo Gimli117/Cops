@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.Design;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -64,31 +65,61 @@ namespace TjuvPolis
 
             _population = new List<Person>();
             //har vi kallat en kunstrokter som är typ av AreaSize i city classen 
-            //
+            // siffrona beskrier olika storleker på väggenrna omkring city.
             citySize = new AreaSize(0, 0, 100, 25);
+            //det är en fält som är typ av area size och själva sifrorna är stolrleken omkring fängelsen ,( där tjuverna ska hämna
+            // i efter de stålet säkerna från citzen).
             prisonSize = new AreaSize(105, 0, 130, 10);
+            //det är också fält som en typ av area size, siffrorna är storleken på fattig hem( där citzen hämnar i om de fick inte kavr item 
+            //på grund av tjuverna har stolet).
             poorPlaceSize = new AreaSize(105, 15, 130, 25);
+<<<<<<< Updated upstream
 
             CreatePopulation();
         }
+=======
+         
+            //Void Private Function with side effect of populating _population list with people.
+            
+            CreatePopulation();
+        }
+       //
+       
+        /// <summary>
+        /// 
+        /// </summary>
+>>>>>>> Stashed changes
         public void DrawOutput()
         {
+            // vi laggt till enn loop som kan ändra färger så som hela backgrunden och texten till vit .
+            // om det rätt ändra texten till vit och bakrgundet till svart .
             while (true)
             {
                 Console.ForegroundColor = ConsoleColor.White;
                 Console.BackgroundColor = ConsoleColor.Black;
-
+                /// det annars om loppet stämmer inte ska visa den som skriver ska vissas i skärmen.
+                
                 Console.CursorVisible = false;
-                Console.SetWindowSize(Console.LargestWindowWidth, Console.LargestWindowHeight);
-
+               ///  även ska storleken på skärmen ska kunna se längden och höjden
+               Console.SetWindowSize(Console.LargestWindowWidth, Console.LargestWindowHeight);
+                // sakerna nere ska ritas som vi har skapat innan .
                 DrawCity();
                 DrawPrison();
                 DrawPoorHouse();
+<<<<<<< Updated upstream
 
+=======
+               // beskriver ensamt exakt hur ska texten står typ under fängelsen och fattighem och  vad som händer i city
+               /// innnehåller färgen och hur ska rittas ska man  exempelvis att anvnäda 0 till ritta fattig hem och stolrekrna.
+                DrawOther();
+                ///vi  började sakpa loop till fälten population varje person i city.
+>>>>>>> Stashed changes
                 foreach (Person person in _population)
                 {
+                    // beskriver citzen om som if  den blir fattig eller har inte items kvar på grund av tjuven har stolet 
                     if (person is Citizen && ((Citizen)person).isPoor)
                     {
+                        
                         person.DrawPerson(poorPlaceSize);
                     }
                     else if (person is Thief && ((Thief)person).Prisonized)
@@ -157,9 +188,13 @@ namespace TjuvPolis
                 else if (person is Citizen) ((Citizen)person).GiveUp();
             }
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         public void CreatePopulation()
+        
         {
+<<<<<<< Updated upstream
             for (int p = 0; p < 10; p++)        //Skapar 10 poliser och ger dem namn
             {
                 _population.Add(new Police($"P{p + 1}"));
@@ -173,7 +208,27 @@ namespace TjuvPolis
             for (int c = 0; c < 40; c++)        //Skapar 40 medborgare
             {
                 _population.Add(new Citizen($"C{c + 1}"));
+=======
+        //for loppen ska  skapa och ge tjuverna och policer och medborgare namn och visa de från 0 som sifror med texter.
+
+           
+            for (int p = 0; p < 20; p++)        //Skapar 10 poliser och ger dem namn
+            {
+                _population.Add(new Police($"P{p + 1}"));
+                if (p < 15)
+
+                    //  för att kunna skapa lista med medlemmar ligger vi  bokastaven T som referar till tjuv och t är 0 i först a loppen.
+                    _population.Add(new Thief($"T{p + 1}"));
+                else if (p < 15) 
+               _population.Add(new Citizen($"C{p + 1}"));
+>>>>>>> Stashed changes
             }
+                   //Skapar 30 tjuvar
+            
+                
+            
+
+            
         }
     }
 }
