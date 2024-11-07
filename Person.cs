@@ -226,7 +226,8 @@ namespace TjuvPolis
     class Citizen : Person                                                          // Citizen
     {
         public static readonly ConsoleColor CitizenColor = ConsoleColor.Green;
-        public bool isPoor = false;
+        public bool IsPoor = false;
+        public int PoorTime = 0;
         private static Random poorPos = new Random();
         private List<Item> Possessions { get; set; }
         public Citizen(string name) : base(name)
@@ -258,14 +259,39 @@ namespace TjuvPolis
 
         public void GiveUp()        //Inga items kvar, hamna på fattighuset
         {
-            if (this.Possessions.Count <= 0 && !this.isPoor)
+            if (Possessions.Count <= 0 && !IsPoor)
             {
-                this.isPoor = true;
+                IsPoor = true;
+                PoorTime = 20;
 
-                this.Pos.X = poorPos.Next(106, 129);
-                this.Pos.Y = poorPos.Next(16, 24);
+                Pos.X = poorPos.Next(106, 129);
+                Pos.Y = poorPos.Next(16, 24);
 
                 Logger.Poor(this);
+            }
+        }
+
+        public void CheckPoor()
+        {
+            if (IsPoor)
+            {
+                if (PoorTime > 0)
+                {
+                    PrisonLogger.AddPoorHouseInfo(this);
+
+                    PoorTime--;
+                }
+                else
+                {
+                    Logger.PoorNoMore(this);
+
+                    Pos.X = poorPos.Next(1, 99);
+                    Pos.Y = poorPos.Next(1, 24);
+                    IsPoor = false;
+                    PoorTime = 0;
+
+                    Possessions.Add(new Item("GOLD"));
+                }
             }
         }
 
@@ -368,7 +394,7 @@ namespace TjuvPolis
         {
             Prisonized = true;
 
-            PrisonTime = WantedLevel * 100;
+            PrisonTime = WantedLevel * 10;
 
             Pos.X = prisonPos.Next(106, 129);
             Pos.Y = prisonPos.Next(1, 9);            
@@ -376,21 +402,25 @@ namespace TjuvPolis
 
         public void CheckJail()
         {
-            if (PrisonTime <= 0 && Prisonized)
+            if (Prisonized)
             {
-                Pos.X = prisonPos.Next(1, 99);
-                Pos.Y = prisonPos.Next(1, 24);
-                Prisonized = false;
-                Wanted = false;
-                PrisonTime = 0;
+                if (PrisonTime > 0)
+                {
+                    PrisonLogger.AddPrisonInfo(this);
 
-                Logger.Released(this);
-            }
-            else
-            {
-                PrisonLogger.AddPrisonInfo(this);
+                    PrisonTime--;
+                }
+                else
+                {
+                    Logger.Released(this);
 
-                PrisonTime--;
+                    Pos.X = prisonPos.Next(1, 99);
+                    Pos.Y = prisonPos.Next(1, 24);
+                    Prisonized = false;
+                    Wanted = false;
+                    PrisonTime = 0;
+                    WantedLevel = 0;
+                }
             }
         }
 
@@ -417,7 +447,7 @@ namespace TjuvPolis
         }
         private void Steal(Citizen citizen)
         {
-            if (!citizen.isPoor)
+            if (!citizen.IsPoor)
             {
                 Wanted = true;
 

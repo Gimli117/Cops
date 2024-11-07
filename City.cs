@@ -45,7 +45,7 @@ namespace TjuvPolis
         // som har accecee modefire, denna fältet kan användas i andra classer.
         /// </summary>
 
-        private int roundCount = 1;
+        public static int roundCount = 1;
 
         public List<Person> Population { 
             get
@@ -92,7 +92,7 @@ namespace TjuvPolis
 
                 foreach (Person person in _population)
                 {
-                    if (person is Citizen && ((Citizen)person).isPoor)
+                    if (person is Citizen && ((Citizen)person).IsPoor)
                     {
                         person.DrawPerson(poorPlaceSize);
                     }
@@ -161,7 +161,6 @@ namespace TjuvPolis
             Console.CursorLeft = 92;
             Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine($"Round {roundCount}");
-            roundCount++;
         }
 
         public void DrawCity()
@@ -193,26 +192,31 @@ namespace TjuvPolis
                     ((Thief)person).CheckJail();
                 }
                 else if (person is Police) ((Police)person).Scan(_population);
-                else if (person is Citizen) ((Citizen)person).GiveUp();
+                else if (person is Citizen)
+                {
+                    ((Citizen)person).GiveUp();
+                    ((Citizen)person).CheckPoor();
+                }
             }
             Logger.PrintQueue();
+            roundCount++;
         }
 
         public void CreatePopulation()
         {
-            for (int p = 0; p < 15; p++)        //Skapar 10 poliser och ger dem namn
+            for (int i = 0; i < 30; i++)
             {
-                _population.Add(new Police($"P{p + 1}"));
-            }
-            
-            for (int t = 0; t < 15; t++)        //Skapar 30 tjuvar
-            {
-                _population.Add(new Thief($"T{t + 1}"));
-            }
+                if (i < 10)                                     
+                {
+                    _population.Add(new Police($"P{i + 1}"));       //Skapar 10 poliser
+                }
 
-            for (int c = 0; c < 20; c++)        //Skapar 40 medborgare
-            {
-                _population.Add(new Citizen($"C{c + 1}"));
+                if (i < 20)                                    
+                {
+                    _population.Add(new Thief($"T{i + 1}"));        //Skapar 20 tjuvar
+                }
+                
+                _population.Add(new Citizen($"C{i + 1}"));          //Skapar 30 medborgare
             }
         }
     }

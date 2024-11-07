@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics.Metrics;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -10,40 +11,82 @@ namespace TjuvPolis
     internal class PrisonLogger
     {
 
-        public static Stack<string> prisoners = new Stack<string>();
+        private static List<Thief> prisoners = new List<Thief>();
+        private static List<Citizen> poorGuys = new List<Citizen>();
         public static void AddPrisonInfo(Thief thief)
         {
-            if (!prisoners.Contains($"Prisoner {thief.Name} will be released in rounds: ") && thief.Prisonized)
+            if (!prisoners.Any(t => t.Name == thief.Name) && thief.Prisonized)
             {
-                prisoners.Push($"Prisoner {thief.Name} will be released in rounds: ");
-            }
-            else if (!thief.Prisonized && thief.PrisonTime > 0)
-            {
-                prisoners.Pop();
+                prisoners.Add(thief);
             }
 
-            PrisonInfo(thief);
+            ReleasePrisoner();
+
+            PrisonInfo();
         }
-        public static void PrisonInfo(Thief thief)
+
+        private static void ReleasePrisoner()
+        {
+            for (int i = 0; i < prisoners.Count; i++)
+            {
+                if (prisoners[i].PrisonTime <= 0)
+                {
+                    prisoners.RemoveAt(i);
+                }
+            }         
+        }
+
+        private static void PrisonInfo()
         {
             Console.ForegroundColor = ConsoleColor.Red;
             Console.CursorTop = 1;
 
-            foreach (string info in prisoners)
+            foreach (var thief in prisoners)
             {
                 Console.CursorLeft = 135;
 
-                if (prisoners.Contains($"Prisoner {thief.Name} will be released in rounds: "))
+                Console.WriteLine($"Prisoner {thief.Name} will be released on round {thief.PrisonTime + City.roundCount}.");
+
+                Console.WriteLine();
+            }
+        }
+
+        public static void AddPoorHouseInfo(Citizen citizen)
+        {
+            if (!poorGuys.Any(c => c.Name == citizen.Name) && citizen.IsPoor)
+            {
+                poorGuys.Add(citizen);
+            }
+
+            CitizenNoPoorAnymore();
+
+            PoorHouseInfo();
+        }
+
+        private static void CitizenNoPoorAnymore()
+        {
+            for (int i = 0; i < poorGuys.Count; i++)
+            {
+                if (poorGuys[i].PoorTime <= 0)
                 {
-                    Console.WriteLine($"{info} {thief.PrisonTime}");
-                    Console.WriteLine();
+                    poorGuys.RemoveAt(i);
                 }
             }
         }
 
-        public static void PoorHouseInfo()
+        private static void PoorHouseInfo()
         {
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.CursorTop = 16;
 
+            foreach (var poorGuy in poorGuys)
+            {
+                Console.CursorLeft = 135;
+
+                Console.WriteLine($"Citizen {poorGuy.Name} will be back in the city on round {poorGuy.PoorTime + City.roundCount}.");
+
+                Console.WriteLine();
+            }
         }
     }
 }
