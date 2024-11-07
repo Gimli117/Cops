@@ -72,11 +72,11 @@ namespace TjuvPolis
                 {
                     Console.ForegroundColor = ConsoleColor.Blue;
                 }
-                else if (log.Contains("Poor"))
+                else if (log.Contains("many"))
                 {
                     Console.ForegroundColor= ConsoleColor.Green;
                 }
-                else if (log.Contains("released"))
+                else if (log.Contains("released") || log.Contains("enter"))
                 {
                     Console.ForegroundColor = ConsoleColor.White;
                 }
