@@ -13,19 +13,20 @@ namespace TjuvPolis
         /// <summary>
         /// citySize är en fält som är medlem i city som kan inte kommas åt i andra classer för att den är privat 
         /// även det är typ av AreaSize 
+        /// ADDING FOR TESTING PURPOSES
         /// </summary>
-      
         private readonly AreaSize citySize;
+
         /// <summary>
         /// perisonsize är en fält som är medlem i city som kan inte kommas åt i andra classer för att den är privat
         /// även det är typ av AreaSize
         /// </summary>
         private readonly AreaSize prisonSize;
+
         /// <summary>
         /// poorPlaceSize är en fält som är medlem i ciy som kan inte kommas åt i andra classer för att den är privat 
         /// även det är typ av Areasize .
         /// </summary>
-       
         private readonly AreaSize poorPlaceSize;
         /// <summary>
         /// Wall är en char som är en fält som är medlem i city som kan inte kommas åt i an dra classer för att den är privat
@@ -37,13 +38,16 @@ namespace TjuvPolis
         /// _population är en medlem i city classen som är special fält som heter backingfält för propeprty Population
         ///  och där kan skickas ut genom get metoden och värdet ändras i den genom sett metoden
         /// </summary>
-
         private List<Person> _population;
+
         /// <summary>
         /// Population är en medlem i city classen som är proppety som kan använda en fält som heter backningsfält
         /// även propety kan innehålla get metoden och värdet ändras genom sett metoden . Det är ett Public proetty
         // som har accecee modefire, denna fältet kan användas i andra classer.
         /// </summary>
+
+        public static int roundCount = 1;
+
         public List<Person> Population { 
             get
             {
@@ -127,9 +131,9 @@ namespace TjuvPolis
                     }
                 }
 
-                CheckEncounters();
+                InteractionsLogic();
 
-                Thread.Sleep(500);
+                Thread.Sleep(100);
                 //Console.ReadLine();
                 Console.Clear();
             }
@@ -155,6 +159,35 @@ namespace TjuvPolis
             }
         }
 
+        public void DrawOther()
+        {
+            Console.CursorLeft = 48;
+            Console.CursorTop = 0;
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.Write("<City>");
+
+            Console.CursorTop = 26;
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine("\n\n Reports");
+            Console.CursorLeft = 0;
+            Console.WriteLine("-----------------------------------------------------------------------------------------------------");
+
+            Console.CursorLeft = 114;
+            Console.CursorTop = 0;
+            Console.ForegroundColor = ConsoleColor.DarkRed;
+            Console.WriteLine("<Prison>");
+
+            Console.CursorLeft = 112;
+            Console.CursorTop = 15;
+            Console.ForegroundColor = ConsoleColor.DarkGreen;
+            Console.WriteLine("<Poor House>");
+
+            Console.CursorTop = 28;
+            Console.CursorLeft = 92;
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine($"Round {roundCount}");
+        }
+
         public void DrawCity()
         {
             DrawWalls(citySize.MinWidthX, citySize.MinHeightY, citySize.MaxWidthX, citySize.MaxHeightY, null);
@@ -174,14 +207,24 @@ namespace TjuvPolis
             DrawWalls(poorPlaceSize.MinWidthX, poorPlaceSize.MinHeightY, poorPlaceSize.MaxWidthX, poorPlaceSize.MaxHeightY, otherWall);
         }
 
-        public void CheckEncounters()
+        public void InteractionsLogic()
         {
             foreach (Person person in _population)
             {
-                if (person is Thief) ((Thief)person).Scan(_population);
+                if (person is Thief)
+                {
+                    ((Thief)person).Scan(_population);
+                    ((Thief)person).CheckJail();
+                }
                 else if (person is Police) ((Police)person).Scan(_population);
-                else if (person is Citizen) ((Citizen)person).GiveUp();
+                else if (person is Citizen)
+                {
+                    ((Citizen)person).GiveUp();
+                    ((Citizen)person).CheckPoor();
+                }
             }
+            Logger.PrintQueue();
+            roundCount++;
         }
         /// <summary>
         /// 

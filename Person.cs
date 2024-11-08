@@ -50,6 +50,8 @@ namespace TjuvPolis
 
             UpdatePos(direction);
 
+            
+
             Console.CursorLeft = Pos.X;
             Console.CursorTop = Pos.Y;
 
@@ -232,7 +234,8 @@ namespace TjuvPolis
     class Citizen : Person                                                          // Citizen
     {
         public static readonly ConsoleColor CitizenColor = ConsoleColor.Green;
-        public bool isPoor = false;
+        public bool IsPoor = false;
+        public int PoorTime = 0;
         private static Random poorPos = new Random();
         private List<Item> Possessions { get; set; }
         public Citizen(string name) : base(name)
@@ -245,7 +248,7 @@ namespace TjuvPolis
         protected override void WritePosition()
         {
             Console.ForegroundColor = CitizenColor;
-            Console.WriteLine($"{Name} med X:{Pos.X}, Y:{Pos.Y}");
+            Console.WriteLine($"Citizen {Name} at X:{Pos.X}, Y:{Pos.Y} has {Possessions.Count} items");
             Console.ForegroundColor = ConsoleColor.White;
         }
 
@@ -264,14 +267,39 @@ namespace TjuvPolis
 
         public void GiveUp()        //Inga items kvar, hamna på fattighuset
         {
-            if (this.Possessions.Count <= 0 && !this.isPoor)
+            if (Possessions.Count <= 0 && !IsPoor)
             {
-                this.isPoor = true;
+                IsPoor = true;
+                PoorTime = 20;
+
+                Pos.X = poorPos.Next(106, 129);
+                Pos.Y = poorPos.Next(16, 24);
 
                 Logger.Poor(this);
+            }
+        }
 
-                this.Pos.X = poorPos.Next(106, 129);
-                this.Pos.Y = poorPos.Next(16, 24);
+        public void CheckPoor()
+        {
+            if (IsPoor)
+            {
+                if (PoorTime > 0)
+                {
+                    PrisonLogger.AddPoorHouseInfo(this);
+
+                    PoorTime--;
+                }
+                else
+                {
+                    Logger.PoorNoMore(this);
+
+                    Pos.X = poorPos.Next(1, 99);
+                    Pos.Y = poorPos.Next(1, 24);
+                    IsPoor = false;
+                    PoorTime = 0;
+
+                    Possessions.Add(new Item("GOLD"));
+                }
             }
         }
 
@@ -309,14 +337,14 @@ namespace TjuvPolis
         {
             foreach (var person in population)
             {
-                if (this.Pos.X == person.ShowPositionX() &&
-                    this.Pos.Y == person.ShowPositionY())
+                if (Pos.X == person.ShowPositionX() &&
+                    Pos.Y == person.ShowPositionY())
                 {
                     Thief persAsThief;
 
                     if (person is Thief && (persAsThief = (person as Thief)!).Wanted)
                     {                        
-                        this.SeizeItems(persAsThief!);
+                        SeizeItems(persAsThief!);
                     }
                 }
             }
@@ -325,13 +353,14 @@ namespace TjuvPolis
         {
             if (thief.Wanted)
             {
-                this.seizedGoods.AddRange(thief.LoseItems());
+                seizedGoods.AddRange(thief.LoseItems());
                 thief.LoseItems().Clear();
 
                 thief.GoToJail();
 
                 Console.CursorLeft = ShowPositionX();
                 Console.CursorTop = ShowPositionY();
+
                 Logger.Arrest(this, thief);
             }
         }
@@ -342,6 +371,8 @@ namespace TjuvPolis
 
         public bool Wanted = false;
         public bool Prisonized = false;
+        public int WantedLevel = 0;
+        public int PrisonTime = 0;
         private static Random prisonPos = new Random();
         private List<Item> Booty { get; set; }
         public Thief(string name) : base(name)
@@ -369,10 +400,36 @@ namespace TjuvPolis
 
         public void GoToJail()      //Tagen av polisen, hamna i fängelset...
         {
-                Prisonized = true;
+            Prisonized = true;
 
-                this.Pos.X = prisonPos.Next(106, 129);
-                this.Pos.Y = prisonPos.Next(1, 9);
+            PrisonTime = WantedLevel * 10;
+
+            Pos.X = prisonPos.Next(106, 129);
+            Pos.Y = prisonPos.Next(1, 9);            
+        }
+
+        public void CheckJail()
+        {
+            if (Prisonized)
+            {
+                if (PrisonTime > 0)
+                {
+                    PrisonLogger.AddPrisonInfo(this);
+
+                    PrisonTime--;
+                }
+                else
+                {
+                    Logger.Released(this);
+
+                    Pos.X = prisonPos.Next(1, 99);
+                    Pos.Y = prisonPos.Next(1, 24);
+                    Prisonized = false;
+                    Wanted = false;
+                    PrisonTime = 0;
+                    WantedLevel = 0;
+                }
+            }
         }
 
         protected override void WritePosition()
@@ -385,32 +442,35 @@ namespace TjuvPolis
         {
             foreach(var person in population)
             {
-                if(this.Pos.X == person.ShowPositionX() && 
-                   this.Pos.Y == person.ShowPositionY())
+                if(Pos.X == person.ShowPositionX() && 
+                   Pos.Y == person.ShowPositionY())
                 {
                     if(person is Citizen)
                     {
                         var persAsCitizen = person as Citizen;
-                        this.Steal(persAsCitizen!);
+                        Steal(persAsCitizen!);
                     }
                 }
             }
         }
         private void Steal(Citizen citizen)
         {
-            if (!citizen.isPoor)
+            if (!citizen.IsPoor)
             {
-                this.Wanted = true;
+                Wanted = true;
 
                 List<Item> items = citizen.GiveItem();
 
                 Item Stolen = items.ElementAt(Random.Shared.Next(0, items.Count));      //Takes a random item from the citizen
-                this.Booty.Add(Stolen);
+                Booty.Add(Stolen);
 
                 citizen.GiveItem().Remove(Stolen);
 
+                WantedLevel++;
+
                 Console.CursorLeft = ShowPositionX();
                 Console.CursorTop = ShowPositionY();
+
                 Logger.Robbery(this, citizen, Stolen);
             }
         }   
