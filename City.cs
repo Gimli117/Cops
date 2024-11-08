@@ -75,17 +75,14 @@ namespace TjuvPolis
             poorPlaceSize = new AreaSize(105, 15, 130, 25);
          
             //Void Private Function with side effect of populating _population list with people.
-            
-<<<<<<< Updated upstream
-
-            CreatePopulation();
+         CreatePopulation();
         }
-=======
+
          
             //Void Private Function with side effect of populating _population list with people.
             
-            CreatePopulation();
-        }
+         
+        
        //
        
         /// <summary>
@@ -190,11 +187,11 @@ namespace TjuvPolis
         /// 
         /// </summary>
         public void CreatePopulation()
-        
-        {
-        //for loppen ska  skapa och ge tjuverna och policer och medborgare namn och visa de från 0 som sifror med texter.
 
-           
+        {
+            //for loppen ska  skapa och ge tjuverna och policer och medborgare namn och visa de från 0 som sifror med texter.
+
+
             for (int p = 0; p < 20; p++)        //Skapar 10 poliser och ger dem namn
             {
                 _population.Add(new Police($"P{p + 1}"));
@@ -202,10 +199,10 @@ namespace TjuvPolis
 
                     //  för att kunna skapa lista med medlemmar ligger vi  bokastaven T som referar till tjuv och t är 0 i först a loppen.
                     _population.Add(new Thief($"T{p + 1}"));
-                else if (p < 15) 
-               _population.Add(new Citizen($"C{p + 1}"));
+                else if (p < 15)
+                    _population.Add(new Citizen($"C{p + 1}"));
             }
-            
+
             for (int t = 0; t < 30; t++)        //Skapar 30 tjuvar
             {
                 _population.Add(new Thief($"T{t + 1}"));
@@ -214,27 +211,25 @@ namespace TjuvPolis
             for (int c = 0; c < 40; c++)        //Skapar 40 medborgare
             {
                 _population.Add(new Citizen($"C{c + 1}"));
-=======
-        //for loppen ska  skapa och ge tjuverna och policer och medborgare namn och visa de från 0 som sifror med texter.
 
-           
-            for (int p = 0; p < 20; p++)        //Skapar 10 poliser och ger dem namn
-            {
-                _population.Add(new Police($"P{p + 1}"));
-                if (p < 15)
+                //for loppen ska  skapa och ge tjuverna och policer och medborgare namn och visa de från 0 som sifror med texter.
 
-                    //  för att kunna skapa lista med medlemmar ligger vi  bokastaven T som referar till tjuv och t är 0 i först a loppen.
-                    _population.Add(new Thief($"T{p + 1}"));
-                else if (p < 15) 
-               _population.Add(new Citizen($"C{p + 1}"));
->>>>>>> Stashed changes
+
+                for (int p = 0; p < 20; p++)        //Skapar 10 poliser och ger dem namn
+                {
+                    _population.Add(new Police($"P{p + 1}"));
+                    if (p < 15)
+
+                        //  för att kunna skapa lista med medlemmar ligger vi  bokastaven T som referar till tjuv och t är 0 i först a loppen.
+                        _population.Add(new Thief($"T{p + 1}"));
+                    else if (p < 15)
+                        _population.Add(new Citizen($"C{p + 1}"));
+
+                }
+                //Skapar 30 tjuvar
+
+
+
             }
-                   //Skapar 30 tjuvar
-            
-                
-            
 
-            
         }
-    }
-}
