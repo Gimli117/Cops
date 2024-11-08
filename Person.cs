@@ -40,56 +40,71 @@ namespace TjuvPolis
         }
         /// <summary>
         /// läggt fält som random direction som 0-9
-        /// 
+        /// personerna ska gå runt  typ 5 gånger-
         /// </summary>
         int direction = random.Next(0, 9);
+        //här ska vi saka sätta side effect alltså hur de rör sig.
         int directionCounter = 0;
+       /// <summary>
+       /// det är funktion men parameter som ritar männsikörna inom  Areasize city .
+       /// </summary>
+       /// <param name="city">parameter</param>
         public void DrawPerson(AreaSize city)
         {
+            //Att de inte gå ut utan för väggen.
             CheckCollision(city);
-
+            //updtearar postioner till personera i city som property
             UpdatePos(direction);
 
             
-
+            //sätta X somm påbekar rilll vänster, 
             Console.CursorLeft = Pos.X;
+            //sätta Y  som påpekar till övanför.
             Console.CursorTop = Pos.Y;
 
             Console.Write(ToString());
+            //Vilkkor till fältet som kollar om fältet lika med 5
             
             if (directionCounter == 5)           // Byter håll var femte turn
             {
+                //det ska få random rikting 0-9
                 direction = random.Next(0, 9);
+              //starta om och byter håll.
                 directionCounter = 0;
             }
             directionCounter++;
         }
-
+        /// <summary>
+        /// funktion som checkar att perosner ska inte studsa utan för vägen
+        /// </summary>
+        /// <param name="size"></param>
         public void CheckCollision(AreaSize size)             // Kollision vid en vägg
         {
+            ///switch stamtemnts med flera case som innehåller vilkor
             switch (direction)
             {
+                //det brukar räkna konsulen inann så det går ett steg innan i så fall minus 1 är höger.
                 case 0:                                     // Left
                     if (Pos.X - 1 == size.MinWidthX)                     // Left Wall Collision
                     {
                         direction = 2;  //Right
                     }
                     break;
-
+                    // i detta fall ska det köras y som - och går upp.
                 case 1:                                     // Up
                     if (Pos.Y - 1 == size.MinHeightY)                     // Ceiling Collision
                     {
                         direction = 3;  //Down
                     }
                     break;
-
+                    ///detta fall ska det x gå till höger .
                 case 2:                                     // Right
                     if (Pos.X + 1 == size.MaxWidthX)        // Right Wall Collision
                     {
                         direction = 0;  //Left
                     }
                     break;
-
+                  ///detta fall Y sksa gå ner.
                 case 3:                                     // Down
                     if (Pos.Y + 1 == size.MaxHeightY)       // Bottom Collision
                     {
@@ -166,27 +181,43 @@ namespace TjuvPolis
             }
         }
     
-
+        /// <summary>
+        /// funktion som är grundenn av systemet.
+        /// </summary>
+        /// <returns>det ska låta override köras</returns>
         new public virtual string ToString()
         {
             return "X";
         }
-
+        /// <summary>
+        /// vi ska ritta posttionenrna med denna acssees modefire.
+        /// </summary>
         protected virtual void WritePosition()
         {
+            //skappa number till varje person med posttionerna x ,y
             Console.WriteLine($"Person{personNum} med X:{Pos.X}, Y:{Pos.Y}");
+            //det ska plussa ett varje gång .
             personNum++;
         }
+        /// <summary>
+        /// detta hjälper oss att visa postionen på x med acees modefire.
+        /// </summary>
+        /// <returns></returns>
         public int ShowPositionX()
         {
+            // det ska skicka data .
             return Pos.X;
         }
+        /// <summary>
+        /// public med data typ int som visar postion på Y
+        /// </summary>
+        /// <returns></returns>
         public int ShowPositionY()
         {
             return Pos.Y;
         }
         public void UpdatePos(int direction)
-        {
+        {///statemnst som är switch som har 7 som case .
             switch (direction) 
             {
                 case 0:         //personen ska röra sig till vänster
@@ -230,71 +261,95 @@ namespace TjuvPolis
             }
         }
     }
-
+    /// <summary>
+    ///skapat en class som är citzen som person
+    /// </summary>
     class Citizen : Person                                                          // Citizen
-    {
+    {//acsse modfire som har get som proepety vilket är read only som leder till ändra färgen på citzen till grön.
         public static readonly ConsoleColor CitizenColor = ConsoleColor.Green;
+        //en access mofire som har data typ boll som frågar ifall citzen är fattig pga Items slut(så om det är fattig gör false)
         public bool IsPoor = false;
+       //access modfire som ligger till data typ int så vi skapar bara
         public int PoorTime = 0;
+        // det bara random postion inom fattig hem för de ska inte vara samma ställe.privite är no acsess.
         private static Random poorPos = new Random();
+        //här vi skapar list av random med items vad de har ,propety används här read only och sätta information.
         private List<Item> Possessions { get; set; }
+        //access modifre av citzen som har virabler i sig som använder data typ string med name och base med name.
         public Citizen(string name) : base(name)
         {
+            //vi kalllar vilka items en ny lista har 
             this.Possessions = new List<Item>();
 
             CreateList();                 // Slipper kalla på funktionen i main
         }
-
+        /// <summary>
+        /// accsess modifre som använder som innehåller random text på name och postion och  byter färgen på hur mycket de har i items.
+        /// </summary>
         protected override void WritePosition()
         {
             Console.ForegroundColor = CitizenColor;
             Console.WriteLine($"Citizen {Name} at X:{Pos.X}, Y:{Pos.Y} has {Possessions.Count} items");
             Console.ForegroundColor = ConsoleColor.White;
         }
-
+        /// <summary>
+        /// skappa lista av 4 iteams med create list.
+        /// </summary>
         private void CreateList()         // Skapar en lista med 4 items
         {
+            //lägga till ny iteam som är mobile
             Possessions.Add(new Item("Phone"));
+            //lägga till ny iteam som är klocka
             Possessions.Add(new Item("Watch"));
+            //lägga till ny iteam som är penagr
             Possessions.Add(new Item("Money"));
+            //lägga till ny iteam som är plånbok
             Possessions.Add(new Item("Wallet"));
         }
-
+        /// <summary>
+        /// acccess modfire som inhåller list av item somm tillbakar items.
+        /// </summary>
+        /// <returns></returns>
         public List<Item> GiveItem()
         {
             return this.Possessions;
         }
-
+        // public accesss modfire som lämnar peersonerna till fatig hem om items de hade slut .
         public void GiveUp()        //Inga items kvar, hamna på fattighuset
-        {
+        {//vilkor som säger om items är 0 då personen är fattig
             if (Possessions.Count <= 0 && !IsPoor)
-            {
+            {// om det rätt
                 IsPoor = true;
+                //lägg tiden på att stanna på fattig hem ,tills round 20
+                
                 PoorTime = 20;
-
+                //sätta X som 106-129 i psstioner
                 Pos.X = poorPos.Next(106, 129);
                 Pos.Y = poorPos.Next(16, 24);
 
                 Logger.Poor(this);
             }
         }
-
+        /// <summary>
+        /// access modefire ska kolla om citzen fattig
+        /// </summary>
         public void CheckPoor()
         {
             if (IsPoor)
             {
                 if (PoorTime > 0)
-                {
+                {//ligger info på sidan av poor houset
                     PrisonLogger.AddPoorHouseInfo(this);
 
                     PoorTime--;
                 }
                 else
                 {
+                 
+                    //annars ska citzen vara inte fattig längre
                     Logger.PoorNoMore(this);
-
-                    Pos.X = poorPos.Next(1, 99);
-                    Pos.Y = poorPos.Next(1, 24);
+                    //posx ska röra sig 1,99 stage uppe i sidan
+                    this.GivePersonRandmPosstion();
                     IsPoor = false;
                     PoorTime = 0;
 
@@ -302,20 +357,37 @@ namespace TjuvPolis
                 }
             }
         }
+        private void GivePersonRandmPosstion()
+        {
+            this.Pos.X = poorPos.Next(1, 99);
+            this.Pos.Y = poorPos.Next(1, 24);
+            
 
+        }
+
+         /// <summary>
+         /// access modefire med data typen string
+         /// </summary>
+         /// <returns></returns>
         public override string ToString()
         {
+            // kunna ändra chrartern på citzen till detta emoji
             Console.ForegroundColor = CitizenColor;
 
             return "👨";
         }
     }
-
+    /// <summary>
+    /// access modifre som är police i person .
+    /// </summary>
     class Police : Person                                                           // Police
-    {
+    {//access mofire som read only can andra police färgen emoji tilll blåå.
         public static readonly ConsoleColor PoliceColor = ConsoleColor.Blue;
         public List<Item> seizedGoods { get; set; }
-
+/// <summary>
+/// acseecc modifre som inehhåler text data typ med name.
+/// </summary>
+/// <param name="name">data namn på P i kunsoulen</param>
         public Police(string name) : base(name)
         {
             seizedGoods = new List<Item>();
