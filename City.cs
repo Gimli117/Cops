@@ -194,7 +194,6 @@ namespace TjuvPolis
                 else if (person is Police) ((Police)person).Scan(_population);
                 else if (person is Citizen)
                 {
-                    ((Citizen)person).GiveUp();
                     ((Citizen)person).CheckPoor();
                 }
             }

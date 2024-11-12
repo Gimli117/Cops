@@ -22,6 +22,7 @@ namespace TjuvPolis
             Console.Write("🔪");
 
             loggerQueue.Enqueue($"[{City.roundCount}]\t- Report {loggerCount} -\t{thief.Name} robbed {citizen.Name} and took his {stolenItem.ItemName}.");
+            
             loggerCount++;
             newEncounter = true;
         }
@@ -32,6 +33,7 @@ namespace TjuvPolis
             Console.Write("🔫");
 
             loggerQueue.Enqueue($"[{City.roundCount}]\t- Report {loggerCount} -\t{police.Name} arrested {thief.Name}, took all his items and will put him in Prison for {thief.PrisonTime} rounds.");
+
             loggerCount++;
             newEncounter = true;
         }
@@ -39,6 +41,7 @@ namespace TjuvPolis
         public static void Poor (Citizen citizen)
         {
             loggerQueue.Enqueue($"[{City.roundCount}]\t- Report {loggerCount} -\tCitizen {citizen.Name} was robbed too many times and will now be put in the Poor House for 20 rounds.");
+
             loggerCount++;
             newEncounter = true;
         }
@@ -46,6 +49,7 @@ namespace TjuvPolis
         public static void Released (Thief thief)
         {
             loggerQueue.Enqueue($"[{City.roundCount}]\t- Report {loggerCount} -\tPrisoner {thief.Name} is no longer Wanted and will now be released from the Prison.");
+
             loggerCount++;
             newEncounter = true;
         }
@@ -53,6 +57,7 @@ namespace TjuvPolis
         public static void PoorNoMore(Citizen citizen)
         {
             loggerQueue.Enqueue($"[{City.roundCount}]\t- Report {loggerCount} -\tCitizen {citizen.Name} is no longer Poor, was given GOLD and will now enter the City once more.");
+
             loggerCount++;
             newEncounter = true;
         }
@@ -92,6 +97,7 @@ namespace TjuvPolis
             }
             if (newEncounter)
             {
+                //Thread.Sleep(1000);
                 Console.ReadLine();
                 newEncounter = false;
             }
