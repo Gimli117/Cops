@@ -32,7 +32,7 @@ namespace TjuvPolis
         /// även det är en konstant altså man kan inte ändra det som virable
         /// </summary>
         const char wall = '█';
-        
+
         /// <summary>
         /// _population är en medlem i city classen som är special fält som heter backingfält för propeprty Population
         ///  och där kan skickas ut genom get metoden och värdet ändras i den genom sett metoden
@@ -47,7 +47,7 @@ namespace TjuvPolis
 
         public static int roundCount = 1;
 
-        public List<Person> Population { 
+        public List<Person> Population {
             get
             {
                 return _population;
@@ -75,7 +75,7 @@ namespace TjuvPolis
             //Void Private Function with side effect of populating _population list with people. 
             CreatePopulation();
         }
-       //
+        //
         public int DrawOutput()
         {
             while (true)
@@ -90,7 +90,7 @@ namespace TjuvPolis
                 DrawPrison();
                 DrawPoorHouse();
                 DrawOther();
-
+                clear();
                 foreach (Person person in _population)
                 {
                     if (person is Citizen && ((Citizen)person).IsPoor)
@@ -109,11 +109,35 @@ namespace TjuvPolis
 
                 InteractionsLogic();
 
-                Thread.Sleep(100);
+                Thread.Sleep(400);
                 //Console.ReadLine();
-                Console.Clear();
+              
             }
         }
+        void clear() {
+            foreach (Person person in _population)
+            {
+                int person3 = person.ShowPositionX();
+                int person4 = person.ShowPositionY();
+                Console.CursorLeft = person3;
+                Console.CursorTop = person4;
+                Console.Write(" ");
+
+
+
+
+
+
+            } 
+
+
+
+
+
+                
+                    
+
+                     }
 
         public void DrawWalls(int MinWidthX, int MinHeightY, int MaxWidthX, int MaxHeightY, char? otherWall)
         {
