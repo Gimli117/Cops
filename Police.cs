@@ -40,18 +40,15 @@
         }
         private void SeizeItems(Thief thief)                                        // Tar tjuvens items och sätter han i fängelse...
         {
-            if (thief.Wanted)
-            {
-                seizedGoods.AddRange(thief.LoseItems());
-                thief.LoseItems().Clear();
+            seizedGoods.AddRange(thief.LoseItems());
+            thief.LoseItems().Clear();
 
-                thief.GoToJail();
+            thief.GoToJail();
 
-                Console.CursorLeft = ShowPositionX();
-                Console.CursorTop = ShowPositionY();
+            Console.CursorLeft = ShowPositionX();
+            Console.CursorTop = ShowPositionY();
 
-                Logger.Arrest(this, thief);
-            }
+            Logger.Arrest(this, thief);    
         }
     }
 }

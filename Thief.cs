@@ -40,7 +40,7 @@
             PrisonTime = WantedLevel * 10;
 
             Pos.X = prisonPos.Next(106, 129);
-            Pos.Y = prisonPos.Next(1, 9);            
+            Pos.Y = prisonPos.Next(1, 9);
         }
 
         public void CheckJail()
@@ -49,13 +49,15 @@
             {
                 if (PrisonTime > 0)
                 {
-                    PrisonLogger.AddPrisonInfo(this);
+                    //PrisonLogger.AddPrisonInfo(this);
 
                     PrisonTime--;
                 }
                 else
                 {
                     Logger.Released(this);
+
+                    Helpers.Clear(this);
 
                     Pos.X = prisonPos.Next(1, 99);
                     Pos.Y = prisonPos.Next(1, 24);

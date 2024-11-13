@@ -60,6 +60,8 @@
                 {
                     Logger.PoorNoMore(this);
 
+                    Helpers.Clear(this);
+
                     Pos.X = poorPos.Next(1, 99);
                     Pos.Y = poorPos.Next(1, 24);
                     IsPoor = false;

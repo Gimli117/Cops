@@ -7,6 +7,11 @@ namespace TjuvPolis
     {
         static void Main()
         {
+            Console.WriteLine("Welcome to Tjuv&Polis! Please maximize the console window and then press enter.");
+            Console.ReadKey();
+
+            Console.CursorVisible = true;
+
             Console.OutputEncoding = Encoding.Unicode;
             City stad = new City();
 

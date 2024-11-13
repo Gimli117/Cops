@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -75,7 +76,8 @@ namespace TjuvPolis
             //Void Private Function with side effect of populating _population list with people. 
             CreatePopulation();
         }
-        //
+        
+
         public int DrawOutput()
         {
             while (true)
@@ -83,14 +85,15 @@ namespace TjuvPolis
                 Console.ForegroundColor = ConsoleColor.White;
                 Console.BackgroundColor = ConsoleColor.Black;
 
-                Console.CursorVisible = false;
                 Console.SetWindowSize(Console.LargestWindowWidth, Console.LargestWindowHeight);
 
                 DrawCity();
                 DrawPrison();
                 DrawPoorHouse();
                 DrawOther();
-                clear();
+                InteractionsLogic();
+                Helpers.Clear(_population);
+
                 foreach (Person person in _population)
                 {
                     if (person is Citizen && ((Citizen)person).IsPoor)
@@ -100,6 +103,8 @@ namespace TjuvPolis
                     else if (person is Thief && ((Thief)person).Prisonized)
                     {
                         person.DrawPerson(prisonSize);
+
+                        PrisonLogger.AddPrisonInfo((Thief)person);
                     }
                     else
                     {
@@ -107,37 +112,15 @@ namespace TjuvPolis
                     }
                 }
 
-                InteractionsLogic();
+
 
                 Thread.Sleep(400);
                 //Console.ReadLine();
-              
             }
         }
-        void clear() {
-            foreach (Person person in _population)
-            {
-                int person3 = person.ShowPositionX();
-                int person4 = person.ShowPositionY();
-                Console.CursorLeft = person3;
-                Console.CursorTop = person4;
-                Console.Write(" ");
 
+        
 
-
-
-
-
-            } 
-
-
-
-
-
-                
-                    
-
-                     }
 
         public void DrawWalls(int MinWidthX, int MinHeightY, int MaxWidthX, int MaxHeightY, char? otherWall)
         {
@@ -222,6 +205,7 @@ namespace TjuvPolis
                     ((Citizen)person).CheckPoor();
                 }
             }
+
             Logger.PrintQueue();
             roundCount++;
         }
