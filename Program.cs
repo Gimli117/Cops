@@ -10,6 +10,8 @@ namespace TjuvPolis
             Console.WriteLine("Welcome to Tjuv&Polis! Please maximize the console window and then press enter (and DON'T resize the window!");
             Console.ReadKey();
 
+            Console.Clear();
+
             Console.CursorVisible = false; ;
 
             Console.OutputEncoding = Encoding.Unicode;
