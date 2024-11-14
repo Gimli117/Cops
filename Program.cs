@@ -7,10 +7,8 @@ namespace TjuvPolis
     {
         static void Main()
         {
-            Console.WriteLine("Welcome to Tjuv&Polis! Please maximize the console window and then press enter.");
+            Console.WriteLine("Welcome to Tjuv&Polis! Please maximize the console window and then press enter (and DON'T resize the window!");
             Console.ReadKey();
-
-            //Console.Clear();
 
             Console.CursorVisible = false; ;
 

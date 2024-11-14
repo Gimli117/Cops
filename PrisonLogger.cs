@@ -41,7 +41,7 @@ namespace TjuvPolis
                     }
                     else if (prisoners.Count > 1)
                     {
-                        Console.CursorTop = (2*prisoners.Count)-1;
+                        Console.CursorTop = (2 * prisoners.Count) - 1;      // Because top starts at 0
                         Console.Write("                                                     ");
                     }
                     prisoners.RemoveAt(i);
@@ -58,7 +58,7 @@ namespace TjuvPolis
             {
                 Console.CursorLeft = 135;
 
-                Console.Write($"Prisoner {thief.Name} will be released on round {thief.PrisonTime + City.roundCount}.");
+                Console.Write($"Prisoner {thief.Name} will be released on round {thief.PrisonTime + City.roundCount}.   ");
 
                 Console.CursorTop += 2;
             }
@@ -71,13 +71,15 @@ namespace TjuvPolis
                 poorGuys.Add(citizen);
             }
 
-            CitizenNoPoorAnymore();
-
             PoorHouseInfo();
+
+            CitizenNoPoorAnymore();
         }
 
         private static void CitizenNoPoorAnymore()
         {
+            Console.CursorLeft = 135;
+
             for (int i = 0; i < poorGuys.Count; i++)
             {
                 if (poorGuys[i].PoorTime < 1)
@@ -89,7 +91,7 @@ namespace TjuvPolis
                     }
                     else if (poorGuys.Count > 1)
                     {
-                        Console.CursorTop = 16 + (2 * poorGuys.Count) - 1;
+                        Console.CursorTop = 16 + ((2 * poorGuys.Count) - 1) - 1;       // -1 because top starts at 16
                         Console.Write("                                                                               ");
                     }
                     poorGuys.RemoveAt(i);
@@ -106,7 +108,7 @@ namespace TjuvPolis
             {
                 Console.CursorLeft = 135;
 
-                Console.Write($"Citizen {poorGuy.Name} will be back in the city on round {poorGuy.PoorTime + City.roundCount}.");
+                Console.Write($"Citizen {poorGuy.Name} will be back in the city on round {poorGuy.PoorTime + City.roundCount}.   ");
 
                 Console.CursorTop += 2;
             }

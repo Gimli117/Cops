@@ -87,13 +87,10 @@ namespace TjuvPolis
 
                 Console.SetWindowSize(Console.LargestWindowWidth, Console.LargestWindowHeight);
 
-                //if (roundCount < 2)
-                //{
-                    DrawCity();
-                    DrawPrison();
-                    DrawPoorHouse();
-                    DrawOther();
-                //}
+                DrawCity();
+                DrawPrison();
+                DrawPoorHouse();
+                DrawOther();
 
                 PrintRoundCount();
 
@@ -123,14 +120,14 @@ namespace TjuvPolis
 
                 Logger.PrintQueue();
 
-                Thread.Sleep(300);
+                Thread.Sleep(500);
 
                 roundCount++;
 
                 if (Logger.newEncounter)
                 {
                     //Console.ReadLine();
-                    Thread.Sleep(1000);
+                    Thread.Sleep(2000);
                     Logger.newEncounter = false;
                 }
             }
@@ -143,7 +140,7 @@ namespace TjuvPolis
 
             int PosX = 0;
 
-            for (int x = 0; x <= (MaxWidthX - MinWidthX); x++)       //Taket och Botten
+            for (int x = 0; x <= (MaxWidthX - MinWidthX); x++)          //Taket och Botten
             {
                 Console.Write((otherWall is null) ? wall : otherWall);
                 Console.CursorTop = MaxHeightY;
@@ -158,7 +155,7 @@ namespace TjuvPolis
             Console.CursorTop = MinHeightY;
             Console.CursorLeft = MinWidthX;
 
-            for (int x = 0; x <= (MaxHeightY - MinHeightY); x++)     //Vänster o Höger vägg
+            for (int x = 0; x <= (MaxHeightY - MinHeightY); x++)        //Vänster o Höger vägg
             {
                 Console.Write((otherWall is null) ? wall : otherWall);
                 Console.CursorLeft = MaxWidthX;
@@ -166,23 +163,6 @@ namespace TjuvPolis
                 Console.CursorLeft = MinWidthX;
                 Console.CursorTop++;
             }
-
-            //for (int x = MinWidthX; x <= MaxWidthX; x++)
-            //{
-            //    for (int y = MinHeightY; y <= MaxHeightY; y++)
-            //    {
-            //        Console.CursorTop = y;
-            //        Console.CursorLeft = x;
-            //        if (x == MinWidthX || x == MaxWidthX)
-            //        {
-            //            Console.Write((otherWall is null) ? wall : otherWall);
-            //        }
-            //        else if (y == MinHeightY || y == MaxHeightY)
-            //        {
-            //            Console.Write((otherWall is null) ? wall : otherWall);
-            //        }
-            //    }
-            //}
         }
 
         public void DrawOther()

@@ -53,7 +53,7 @@
                 }
                 else
                 {
-                    Logger.Released(this);
+                    Logger.Released(this);  // Linq
 
                     Helpers.Clear(this);
 
