@@ -40,7 +40,7 @@ namespace TjuvPolis
 
         public static void Poor (Citizen citizen)
         {
-            loggerQueue.Enqueue($"[{City.roundCount}]\t- Report {loggerCount} -\tCitizen {citizen.Name} was robbed too many times and will now be put in the Poor House for 20 rounds.                                          ");
+            loggerQueue.Enqueue($"[{City.roundCount}]\t- Report {loggerCount} -\tCitizen {citizen.Name} was robbed too many times and will now be put in the Poor House for {citizen.PoorTime} rounds.                                          ");
 
             loggerCount++;
             newEncounter = true;
@@ -54,7 +54,7 @@ namespace TjuvPolis
             newEncounter = true;
         }
 
-        public static void PoorNoMore(Citizen citizen)
+        public static void PoorNoMore (Citizen citizen)
         {
             loggerQueue.Enqueue($"[{City.roundCount}]\t- Report {loggerCount} -\tCitizen {citizen.Name} is no longer Poor, was given GOLD and entered the City once more.                                                 ");
 
@@ -66,7 +66,7 @@ namespace TjuvPolis
         {
             Console.CursorTop = 31;
 
-            while (loggerQueue.Count > 9)
+            while (loggerQueue.Count > 10)
             {
                 loggerQueue.Dequeue();
             }
@@ -94,12 +94,6 @@ namespace TjuvPolis
 
                 Console.WriteLine(log);
                 Console.WriteLine();
-            }
-            if (newEncounter)
-            {
-                //Thread.Sleep(1000);
-                Console.ReadLine();
-                newEncounter = false;
             }
         }
     }

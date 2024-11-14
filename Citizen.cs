@@ -41,7 +41,7 @@
                 IsPoor = true;
                 PoorTime = 20;
 
-                Pos.X = poorPos.Next(106, 129);
+                Pos.X = poorPos.Next(106, 127);
                 Pos.Y = poorPos.Next(16, 24);
             }
         }
@@ -62,7 +62,7 @@
 
                     Helpers.Clear(this);
 
-                    Pos.X = poorPos.Next(1, 99);
+                    Pos.X = poorPos.Next(1, 97);
                     Pos.Y = poorPos.Next(1, 24);
                     IsPoor = false;
                     PoorTime = 0;

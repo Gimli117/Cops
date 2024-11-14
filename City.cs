@@ -87,11 +87,16 @@ namespace TjuvPolis
 
                 Console.SetWindowSize(Console.LargestWindowWidth, Console.LargestWindowHeight);
 
-                DrawCity();
-                DrawPrison();
-                DrawPoorHouse();
-                DrawOther();
-                InteractionsLogic();
+                //if (roundCount < 2)
+                //{
+                    DrawCity();
+                    DrawPrison();
+                    DrawPoorHouse();
+                    DrawOther();
+                //}
+
+                PrintRoundCount();
+
                 Helpers.Clear(_population);
 
                 foreach (Person person in _population)
@@ -99,6 +104,8 @@ namespace TjuvPolis
                     if (person is Citizen && ((Citizen)person).IsPoor)
                     {
                         person.DrawPerson(poorPlaceSize);
+
+                        PrisonLogger.AddPoorHouseInfo((Citizen)person);
                     }
                     else if (person is Thief && ((Thief)person).Prisonized)
                     {
@@ -112,40 +119,76 @@ namespace TjuvPolis
                     }
                 }
 
+                InteractionsLogic();
 
+                Logger.PrintQueue();
 
-                Thread.Sleep(400);
-                //Console.ReadLine();
+                Thread.Sleep(300);
+
+                roundCount++;
+
+                if (Logger.newEncounter)
+                {
+                    //Console.ReadLine();
+                    Thread.Sleep(1000);
+                    Logger.newEncounter = false;
+                }
             }
         }
 
-        
-
-
         public void DrawWalls(int MinWidthX, int MinHeightY, int MaxWidthX, int MaxHeightY, char? otherWall)
         {
-            for (int x = MinWidthX; x <= MaxWidthX; x++)
+            Console.CursorTop = MinHeightY;
+            Console.CursorLeft = MinWidthX;
+
+            int PosX = 0;
+
+            for (int x = 0; x <= (MaxWidthX - MinWidthX); x++)       //Taket och Botten
             {
-                for (int y = MinHeightY; y <= MaxHeightY; y++)
-                {
-                    Console.CursorTop = y;
-                    Console.CursorLeft = x;
-                    if (x == MinWidthX || x == MaxWidthX)
-                    {
-                        Console.Write((otherWall is null) ? wall : otherWall);
-                    }
-                    else if (y == MinHeightY || y == MaxHeightY)
-                    {
-                        Console.Write((otherWall is null) ? wall : otherWall);
-                    }
-                }
+                Console.Write((otherWall is null) ? wall : otherWall);
+                Console.CursorTop = MaxHeightY;
+                Console.Write((otherWall is null) ? wall : otherWall);
+                Console.CursorTop = MinHeightY;
+
+                Console.CursorLeft = MinWidthX + PosX;
+
+                PosX++;
             }
+
+            Console.CursorTop = MinHeightY;
+            Console.CursorLeft = MinWidthX;
+
+            for (int x = 0; x <= (MaxHeightY - MinHeightY); x++)     //Vänster o Höger vägg
+            {
+                Console.Write((otherWall is null) ? wall : otherWall);
+                Console.CursorLeft = MaxWidthX;
+                Console.Write((otherWall is null) ? wall : otherWall);
+                Console.CursorLeft = MinWidthX;
+                Console.CursorTop++;
+            }
+
+            //for (int x = MinWidthX; x <= MaxWidthX; x++)
+            //{
+            //    for (int y = MinHeightY; y <= MaxHeightY; y++)
+            //    {
+            //        Console.CursorTop = y;
+            //        Console.CursorLeft = x;
+            //        if (x == MinWidthX || x == MaxWidthX)
+            //        {
+            //            Console.Write((otherWall is null) ? wall : otherWall);
+            //        }
+            //        else if (y == MinHeightY || y == MaxHeightY)
+            //        {
+            //            Console.Write((otherWall is null) ? wall : otherWall);
+            //        }
+            //    }
+            //}
         }
 
         public void DrawOther()
         {
             Console.CursorLeft = 48;
-            Console.CursorTop = 0;
+            Console.CursorTop = 26;
             Console.ForegroundColor = ConsoleColor.Cyan;
             Console.Write("<City>");
 
@@ -156,21 +199,23 @@ namespace TjuvPolis
             Console.WriteLine("-----------------------------------------------------------------------------------------------------");
 
             Console.CursorLeft = 114;
-            Console.CursorTop = 0;
+            Console.CursorTop = 11;
             Console.ForegroundColor = ConsoleColor.DarkRed;
             Console.WriteLine("<Prison>");
 
             Console.CursorLeft = 112;
-            Console.CursorTop = 15;
+            Console.CursorTop = 26;
             Console.ForegroundColor = ConsoleColor.DarkGreen;
             Console.WriteLine("<Poor House>");
+        }
 
+        public void PrintRoundCount()
+        {
             Console.CursorTop = 28;
             Console.CursorLeft = 92;
             Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine($"Round {roundCount}");
         }
-
         public void DrawCity()
         {
             DrawWalls(citySize.MinWidthX, citySize.MinHeightY, citySize.MaxWidthX, citySize.MaxHeightY, null);
@@ -205,9 +250,6 @@ namespace TjuvPolis
                     ((Citizen)person).CheckPoor();
                 }
             }
-
-            Logger.PrintQueue();
-            roundCount++;
         }
 
         public void CreatePopulation()

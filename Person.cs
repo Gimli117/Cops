@@ -28,7 +28,7 @@ namespace TjuvPolis
         {
             Pos = new Position();
 
-            Pos.X = random.Next(1, 99);
+            Pos.X = random.Next(1, 97);
             Pos.Y = random.Next(1, 24);
 
             Name = name;
@@ -41,8 +41,6 @@ namespace TjuvPolis
             CheckCollision(city);
 
             UpdatePos(direction);
-
-            
 
             Console.CursorLeft = Pos.X;
             Console.CursorTop = Pos.Y;
@@ -76,7 +74,7 @@ namespace TjuvPolis
                     break;
 
                 case 2:                                     // Right
-                    if (Pos.X + 1 == size.MaxWidthX)        // Right Wall Collision
+                    if (Pos.X + 1 == size.MaxWidthX-2)        // Right Wall Collision
                     {
                         direction = 0;  //Left
                     }
@@ -101,7 +99,7 @@ namespace TjuvPolis
                     if (Pos.X - 1 == size.MinWidthX && Pos.Y + 1 == size.MaxHeightY)    // CORNER collision
                     {
                         direction = 6;  //Right+Up
-                        Console.BackgroundColor = ConsoleColor.DarkYellow;
+                        //Console.BackgroundColor = ConsoleColor.DarkYellow;
                     }
                     break;
 
@@ -117,12 +115,12 @@ namespace TjuvPolis
                     if (Pos.X - 1 == size.MinWidthX && Pos.Y - 1 == size.MinHeightY)                  // CORNER collision
                     {
                         direction = 7;  //Right+Down
-                        Console.BackgroundColor = ConsoleColor.DarkYellow;
+                        //Console.BackgroundColor = ConsoleColor.DarkYellow;
                     }
                     break;
 
                 case 6:                                                    // Right+Up
-                    if (Pos.X + 1 == size.MaxWidthX)                       // Right Wall collision
+                    if (Pos.X + 1 == size.MaxWidthX-2)                       // Right Wall collision
                     {
                         direction = 5;  //Left+Up
                     }
@@ -130,15 +128,15 @@ namespace TjuvPolis
                     {
                         direction = 7;  //Right+Down
                     }
-                    if (Pos.X + 1 == size.MaxWidthX && Pos.Y - 1 == size.MinHeightY)     // CORNER collision
+                    if (Pos.X + 1 == size.MaxWidthX-2 && Pos.Y - 1 == size.MinHeightY)     // CORNER collision
                     {
                         direction = 4;  //Left+Down
-                        Console.BackgroundColor = ConsoleColor.DarkYellow;
+                        //Console.BackgroundColor = ConsoleColor.DarkYellow;
                     }
                     break;
 
                 case 7:                                                    // Right+Down
-                    if (Pos.X + 1 == size.MaxWidthX)                       // Right Wall collision
+                    if (Pos.X + 1 == size.MaxWidthX-2)                       // Right Wall collision
                     {
                         direction = 4;  //Left+Down
                     }
@@ -146,10 +144,10 @@ namespace TjuvPolis
                     {
                         direction = 6;  //Right+Up
                     }
-                    if (Pos.X + 1 == size.MaxWidthX && Pos.Y + 1 == size.MaxHeightY)     // CORNER collision
+                    if (Pos.X + 1 == size.MaxWidthX-2 && Pos.Y + 1 == size.MaxHeightY)     // CORNER collision
                     {
                         direction = 5;  //Left+Up
-                        Console.BackgroundColor = ConsoleColor.DarkYellow;
+                        //Console.BackgroundColor = ConsoleColor.DarkYellow;
                     }
                     break;
 
