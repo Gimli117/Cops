@@ -23,8 +23,8 @@
 
         private void CreateList()         // Skapar en lista med 4 items
         {
-            //Possessions.Add(new Item("Phone"));
-            //Possessions.Add(new Item("Watch"));
+            Possessions.Add(new Item("Phone"));
+            Possessions.Add(new Item("Watch"));
             Possessions.Add(new Item("Money"));
             Possessions.Add(new Item("Wallet"));
         }
